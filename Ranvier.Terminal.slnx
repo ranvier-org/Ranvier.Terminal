@@ -6,4 +6,5 @@
   <Project Path="src/Ranvier.Terminal/Ranvier.Terminal.fsproj" />
   <Project Path="tests/Ranvier.Terminal.Tests/Ranvier.Terminal.Tests.fsproj" />
   <Project Path="examples/Dashboard/Dashboard.fsproj" />
+  <Project Path="examples/Showcase/Showcase.fsproj" />
 </Solution>

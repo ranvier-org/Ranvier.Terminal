@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../src/Ranvier.Terminal/Ranvier.Terminal.fsproj" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model.fs" />
+    <Compile Include="Pages.fs" />
+    <Compile Include="Kit.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+</Project>

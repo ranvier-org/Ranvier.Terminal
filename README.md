@@ -24,6 +24,7 @@ execution on those platforms has not been verified in this environment. See [VER
 | `Ranvier.Terminal` | Windows and POSIX input, terminal modes, session cleanup, application loop |
 | `Ranvier.Terminal.Tests` | Dependency-free executable regression suite and native Windows verification |
 | `Dashboard` | Live clock, animation, reactive counter, editable text and checkbox |
+| `Showcase` | Interactive gallery of controls, layout, styles, Unicode, lifetimes, rendering and input; see [the guide](examples/Showcase/README.md) |
 
 ## Build and run
 

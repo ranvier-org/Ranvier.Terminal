@@ -30,6 +30,14 @@ not discard measured nonzero runs or retry until passing. Nonzero measured alloc
 Linux and macOS native execution are **not verified here**. Attempts to access WSL and the Docker
 engine were denied by the local environment. The CI matrix is prepared but has not been run remotely.
 
+## Feature showcase
+
+**Measured here:** `Showcase --verify` passed after rendering every registered page at the
+configured viewport sizes (144 frames). It checked button actions, text editing, branch cleanup,
+collection changes, output-mode changes, invalidation, scrolling and function-key navigation.
+The same checks passed under `dotnet watch` with hot reload enabled. A hidden native session
+visited all pages and exited successfully through `scripts/showcase-smoke.ps1`.
+
 The source dependency revision inspected and built here was
 `25a4452669c0853f75c59724f7f7264959c3fa1a` in the sibling Ranvier checkout
 (**measured here:** `git rev-parse HEAD`).
