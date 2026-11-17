@@ -1,0 +1,29 @@
+name: Verify
+on: [push, pull_request]
+jobs:
+  verify:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: Ranvier.Terminal
+      - uses: actions/checkout@v4
+        with:
+          repository: ranvier-org/Ranvier
+          ref: 25a4452669c0853f75c59724f7f7264959c3fa1a
+          path: Ranvier
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        working-directory: Ranvier.Terminal
+        run: dotnet build Ranvier.Terminal.slnx -c Release -m:1 -p:NuGetAudit=false -p:RanvierTrace=false
+      - name: Regression and allocation gates
+        working-directory: Ranvier.Terminal
+        run: dotnet tests/Ranvier.Terminal.Tests/bin/Release/net10.0/Ranvier.Terminal.Tests.dll
+      - name: Live headless dashboard
+        working-directory: Ranvier.Terminal
+        run: dotnet examples/Dashboard/bin/Release/net10.0/Dashboard.dll --headless

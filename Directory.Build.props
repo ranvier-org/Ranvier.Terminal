@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <FSharpCoreImplicitPackageVersion>8.0.100</FSharpCoreImplicitPackageVersion>
+    <NuGetAudit>false</NuGetAudit>
+    <Version>0.1.0</Version>
+    <RanvierTrace>false</RanvierTrace>
+  </PropertyGroup>
+</Project>

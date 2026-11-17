@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><ProjectReference Include="../Ranvier.Terminal.Core/Ranvier.Terminal.Core.fsproj" /></ItemGroup>
+  <ItemGroup><Compile Include="Styles.fs" /></ItemGroup>
+</Project>

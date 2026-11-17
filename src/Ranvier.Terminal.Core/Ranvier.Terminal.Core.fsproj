@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Compile Include="Cells.fs" />
+    <Compile Include="Frame.fs" />
+    <Compile Include="Output.fs" />
+    <Compile Include="Input.fs" />
+  </ItemGroup>
+</Project>

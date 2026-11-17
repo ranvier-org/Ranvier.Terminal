@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="../Ranvier/src/Ranvier/Ranvier.fsproj" />
+  <Project Path="src/Ranvier.Terminal.Core/Ranvier.Terminal.Core.fsproj" />
+  <Project Path="src/Ranvier.Terminal.Css/Ranvier.Terminal.Css.fsproj" />
+  <Project Path="src/Ranvier.Terminal.View/Ranvier.Terminal.View.fsproj" />
+  <Project Path="src/Ranvier.Terminal/Ranvier.Terminal.fsproj" />
+  <Project Path="tests/Ranvier.Terminal.Tests/Ranvier.Terminal.Tests.fsproj" />
+  <Project Path="examples/Dashboard/Dashboard.fsproj" />
+</Solution>

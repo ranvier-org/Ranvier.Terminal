@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Ranvier.Terminal.Css/Ranvier.Terminal.Css.fsproj" />
+    <ProjectReference Include="../../../Ranvier/src/Ranvier/Ranvier.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Tree.fs" />
+    <Compile Include="Layout.fs" />
+    <Compile Include="Dsl.fs" />
+    <Compile Include="Widgets.fs" />
+  </ItemGroup>
+</Project>

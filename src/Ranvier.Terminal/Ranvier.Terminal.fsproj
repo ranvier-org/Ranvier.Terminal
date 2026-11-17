@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><ProjectReference Include="../Ranvier.Terminal.View/Ranvier.Terminal.View.fsproj" /></ItemGroup>
+  <ItemGroup><Compile Include="Native.fs" /><Compile Include="Terminal.fs" /></ItemGroup>
+</Project>
