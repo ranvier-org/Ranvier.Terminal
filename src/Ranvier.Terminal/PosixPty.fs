@@ -254,20 +254,21 @@ module internal PosixPty =
                 let mutable exitCode = 0
                 let mutable disposed = false
                 let mutable active = 0
+                let mutable deniedPid = 0
+                let signalException error =
+                    if deniedPid = 0 then Win32Exception(error: int)
+                    else Win32Exception(error, sprintf "Cannot terminate process %d in PTY group %d." deniedPid childId)
                 let signalGroup () =
                     if mac then
-                        let mutable deniedPid = 0
-                        let error = ranvier_signal_group(childId, &deniedPid)
-                        if error <> 0 && error <> 3 && deniedPid <> 0 then
-                            raise (Win32Exception(error, sprintf "Cannot terminate process %d in PTY group %d." deniedPid childId))
-                        error
+                        deniedPid <- 0
+                        ranvier_signal_group(childId, &deniedPid)
                     elif kill(-childId, 9) = 0 then 0
                     else errno ()
                 let terminate () =
                     lock lifeGate (fun () ->
                         if not reaped && not lost && not deferredReap then
                             let error = signalGroup ()
-                            if error <> 0 && error <> 3 then raise (Win32Exception error))
+                            if error <> 0 && error <> 3 then raise (signalException error))
                 let reap () =
                     lock lifeGate (fun () ->
                         if not reaped && not lost && not deferredReap then
@@ -290,12 +291,12 @@ module internal PosixPty =
                                     lock lifeGate (fun () ->
                                         reaped <- waited = childId
                                         lost <- waited <> childId)), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default) |> ignore
-                                if signalError <> 0 && signalError <> 3 then raise (Win32Exception signalError)
+                                if signalError <> 0 && signalError <> 3 then raise (signalException signalError)
                                 invalidOp "PTY child cleanup continues in an exact native waiter."
                             else
                                 reaped <- true
                                 exitCode <- if status &&& 0x7f = 0 then (status >>> 8) &&& 255 else 128 + (status &&& 0x7f)
-                            if signalError <> 0 && signalError <> 3 then raise (Win32Exception signalError)
+                            if signalError <> 0 && signalError <> 3 then raise (signalException signalError)
                         if lost then invalidOp "PTY child status was reaped externally; native child ownership was lost."
                         exitCode)
                 let waitExit () =

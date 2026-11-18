@@ -305,3 +305,7 @@ monitor demo/live smoke checks passed at both 500 ms and 100 ms, as did native i
 and dashboard smoke checks. This polling change was not re-executed on Linux or macOS.
 
 Measured in the [initial GitHub verification run](https://github.com/ranvier-org/Ranvier.Terminal/actions/runs/44278590636), the Intel macOS changing-frame allocation gate recorded 12,336 managed bytes over 10,000 frames with tiered compilation enabled. CI runs the steady-state suite with fully optimized JIT compilation from startup. The allocation limit is zero bytes. Application and subprocess checks use the default runtime settings.
+
+## Release verification
+
+Measured in the [release verification run](https://github.com/ranvier-org/Ranvier.Terminal/actions/runs/44290675150), Intel macOS passed native controlling-terminal identity, resize signals, interrupts, concurrent writes and cancellation, process-group cleanup and exact reaping. A fresh NuGet consumer exercised the packaged Intel launcher via /dev/tty. The same matrix passed on Linux, Windows and Apple Silicon; Apple Silicon explicitly exercises redirected subprocesses and rejects native subprocess PTY mode.
