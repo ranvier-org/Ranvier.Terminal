@@ -5,6 +5,7 @@ open System.Diagnostics
 open System.Threading
 open System.Threading.Tasks
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.View
 
@@ -87,22 +88,22 @@ module Model =
         match event with
         | Key key when not key.Released && (key.Modifiers=Modifiers.None || (key.Key=Key.Character && key.Modifiers=Modifiers.Shift)) ->
             if model.Filtering then
-                match key.Key with
-                | Key.Escape -> model.Filtering <- false; model.Filter <- ""
-                | Key.Enter -> model.Filtering <- false
-                | Key.Backspace ->
+                match key.LogicalKey with
+                | LogicalKey.Ui Escape -> model.Filtering <- false; model.Filter <- ""
+                | LogicalKey.Whitespace Enter -> model.Filtering <- false
+                | LogicalKey.Editing EditingKey.Backspace ->
                     if model.Filter.Length>0 then
                         let indices=Globalization.StringInfo.ParseCombiningCharacters model.Filter
                         model.Filter <- model.Filter.Substring(0,indices[indices.Length-1])
-                | Key.Character when Text.Rune.IsValid key.Scalar && key.Scalar>=32 && model.Filter.Length<128 ->
+                | LogicalKey.Character _ | LogicalKey.Whitespace Space when Text.Rune.IsValid key.Scalar && key.Scalar>=32 && model.Filter.Length<128 ->
                     model.Filter <- model.Filter+Text.Rune(key.Scalar).ToString()
                 | _ -> ()
                 model.SelectedPid.Value <- rows model |> Array.tryHead |> Option.map _.Pid
             else
-                match key.Key with
-                | Key.Enter -> model.Detail <- not model.Detail
-                | Key.Escape -> model.Help <- false; model.Detail <- false; model.Filter <- ""
-                | Key.Character when not key.Paste ->
+                match key.LogicalKey with
+                | LogicalKey.Whitespace Enter -> model.Detail <- not model.Detail
+                | LogicalKey.Ui Escape -> model.Help <- false; model.Detail <- false; model.Filter <- ""
+                | LogicalKey.Character _ | LogicalKey.Whitespace Space when not key.Paste && key.Scalar <= 127 ->
                     match Char.ToLowerInvariant(char key.Scalar) with
                     | 'q' -> model.Quit <- true
                     | '/' | 'f' -> model.Filtering <- true

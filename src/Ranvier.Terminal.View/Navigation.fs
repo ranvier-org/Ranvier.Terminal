@@ -3,6 +3,7 @@ namespace Ranvier.Terminal.View
 open System
 open System.Collections.Generic
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 
@@ -21,7 +22,7 @@ module Navigation =
         not key.Paste && not key.Released && key.Modifiers = Modifiers.None
 
     let private activation (key: KeyEvent) =
-        key.Key = Key.Enter || (key.Key = Key.Character && key.Scalar = 32)
+        key.LogicalKey = LogicalKey.Whitespace Enter || key.LogicalKey = LogicalKey.Whitespace Space
 
     let private rowStyle = [ Height(Cells 1) ]
     let private selectedStyle = [ Height(Cells 1); Css.attributes Attributes.Reverse ]
@@ -46,8 +47,8 @@ module Navigation =
         let toggle () = expanded.Value <- not expanded.Peek
         heading.OnEvent <- function
             | Key key when keyPress key && activation key -> toggle (); true
-            | Key key when keyPress key && (key.Key = Key.Left || key.Key = Key.Right) ->
-                expanded.Value <- key.Key = Key.Right
+            | Key key when keyPress key && (key.LogicalKey = LogicalKey.Navigation ArrowLeft || key.LogicalKey = LogicalKey.Navigation ArrowRight) ->
+                expanded.Value <- key.LogicalKey = LogicalKey.Navigation ArrowRight
                 true
             | Mouse mouse when mouse.Action = MouseAction.Press && mouse.Button = 0 -> toggle (); true
             | _ -> false
@@ -106,11 +107,11 @@ module Navigation =
                 let tabs = items.Peek
                 let i = tabs |> Array.tryFindIndex (fun tab -> selected.Peek = Some tab.Key) |> Option.defaultValue 0
                 let next =
-                    match key.Key with
-                    | Key.Left -> (i + tabs.Length - 1) % tabs.Length
-                    | Key.Right -> (i + 1) % tabs.Length
-                    | Key.Home -> 0
-                    | Key.End -> tabs.Length - 1
+                    match key.LogicalKey with
+                    | LogicalKey.Navigation ArrowLeft -> (i + tabs.Length - 1) % tabs.Length
+                    | LogicalKey.Navigation ArrowRight -> (i + 1) % tabs.Length
+                    | LogicalKey.Navigation Home -> 0
+                    | LogicalKey.Navigation NavigationKey.End -> tabs.Length - 1
                     | _ -> -1
                 if next < 0 then false
                 else
@@ -193,15 +194,15 @@ module Navigation =
                 let move i =
                     selected.Value <- Some visible[Math.Clamp(i, 0, visible.Count - 1)].Key
                     true
-                match key.Key with
-                | Key.Up -> move (index - 1)
-                | Key.Down -> move (index + 1)
-                | Key.Home -> move 0
-                | Key.End -> move (visible.Count - 1)
-                | Key.Right when item.Children.Length > 0 ->
+                match key.LogicalKey with
+                | LogicalKey.Navigation ArrowUp -> move (index - 1)
+                | LogicalKey.Navigation ArrowDown -> move (index + 1)
+                | LogicalKey.Navigation Home -> move 0
+                | LogicalKey.Navigation NavigationKey.End -> move (visible.Count - 1)
+                | LogicalKey.Navigation ArrowRight when item.Children.Length > 0 ->
                     if expanded.Peek.Contains item.Key then move (index + 1)
                     else toggle item.Key; true
-                | Key.Left ->
+                | LogicalKey.Navigation ArrowLeft ->
                     if item.Children.Length > 0 && expanded.Peek.Contains item.Key then toggle item.Key; true
                     else
                         match parents[item.Key] with Some parent -> selected.Value <- Some parent; true | None -> false

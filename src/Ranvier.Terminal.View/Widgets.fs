@@ -3,6 +3,7 @@ namespace Ranvier.Terminal.View
 open System
 open System.Globalization
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 
@@ -130,13 +131,13 @@ module Widgets =
             | Mouse _ as event -> wheel event
             | Key key when not key.Released && not key.Paste ->
                 let count = items.Peek.Length
-                match key.Key with
-                | Key.Up | Key.Down when count > 0 ->
-                    let delta = if key.Key = Key.Up then -1 else 1
+                match key.LogicalKey with
+                | LogicalKey.Navigation ArrowUp | LogicalKey.Navigation ArrowDown when count > 0 ->
+                    let delta = if key.LogicalKey = LogicalKey.Navigation ArrowUp then -1 else 1
                     selected.Value <- max 0 (min (count - 1) (max 0 (min (count - 1) selected.Peek) + delta))
                     true
-                | Key.PageUp | Key.PageDown when count > 0 ->
-                    let delta = if key.Key = Key.PageUp then -viewport.Peek.Height else viewport.Peek.Height
+                | LogicalKey.Navigation PageUp | LogicalKey.Navigation PageDown when count > 0 ->
+                    let delta = if key.LogicalKey = LogicalKey.Navigation PageUp then -viewport.Peek.Height else viewport.Peek.Height
                     scrollBy delta
                     true
                 | _ -> false
@@ -195,9 +196,9 @@ module Widgets =
             | Key key when not key.Released && not key.Paste ->
                 let count = items.Peek.Length
                 let delta =
-                    match key.Key with
-                    | Key.Up -> -1 | Key.Down -> 1
-                    | Key.PageUp -> -visibleRows | Key.PageDown -> visibleRows
+                    match key.LogicalKey with
+                    | LogicalKey.Navigation ArrowUp -> -1 | LogicalKey.Navigation ArrowDown -> 1
+                    | LogicalKey.Navigation PageUp -> -visibleRows | LogicalKey.Navigation PageDown -> visibleRows
                     | _ -> 0
                 if delta = 0 || count = 0 then false
                 else
@@ -216,7 +217,7 @@ module Widgets =
             | Key key as event when
                 not key.Released
                 && not key.Paste
-                && (key.Key = Key.Enter || (key.Key = Key.Character && key.Scalar = 32))
+                && (key.LogicalKey = LogicalKey.Whitespace Enter || key.LogicalKey = LogicalKey.Whitespace Space)
                 ->
                 action event
                 true
@@ -302,29 +303,29 @@ module Widgets =
             | Key key when not key.Released ->
                 let current = value.Peek
 
-                match key.Key with
-                | Key.Left when not key.Paste ->
+                match key.LogicalKey with
+                | LogicalKey.Navigation ArrowLeft when not key.Paste ->
                     move (previous ())
                     true
-                | Key.Right when not key.Paste ->
+                | LogicalKey.Navigation ArrowRight when not key.Paste ->
                     move (next ())
                     true
-                | Key.Home when not key.Paste ->
+                | LogicalKey.Navigation Home when not key.Paste ->
                     move 0
                     true
-                | Key.End when not key.Paste ->
+                | LogicalKey.Navigation NavigationKey.End when not key.Paste ->
                     move current.Length
                     true
-                | Key.Backspace when not key.Paste && cursor > 0 ->
+                | LogicalKey.Editing EditingKey.Backspace when not key.Paste && cursor > 0 ->
                     let start = previous ()
                     let updated = current.Remove(start, cursor - start)
                     cursor <- start
                     value.Value <- updated
                     true
-                | Key.Delete when not key.Paste && cursor < current.Length ->
+                | LogicalKey.Editing EditingKey.Delete when not key.Paste && cursor < current.Length ->
                     value.Value <- current.Remove(cursor, next () - cursor)
                     true
-                | Key.Character when
+                | LogicalKey.Character _ | LogicalKey.Whitespace Space when
                     key.Scalar >= 32
                     && key.Scalar <= 0x10FFFF
                     && (key.Paste
@@ -364,11 +365,11 @@ module Widgets =
         node.OnEvent <-
             function
             | Key key when not key.Released && not key.Paste && items.Length > 0 ->
-                match key.Key with
-                | Key.Up ->
+                match key.LogicalKey with
+                | LogicalKey.Navigation ArrowUp ->
                     selected.Value <- max 0 (selected.Value - 1)
                     true
-                | Key.Down ->
+                | LogicalKey.Navigation ArrowDown ->
                     selected.Value <- min (items.Length - 1) (selected.Value + 1)
                     true
                 | _ -> false

@@ -1,6 +1,7 @@
 namespace Ranvier.Terminal.View
 
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 
@@ -109,16 +110,16 @@ module Select =
                 if opened then hide () else show ()
                 true
             | Key k as event when not k.Released && not k.Paste && k.Modifiers = Modifiers.None ->
-                match k.Key with
-                | Key.Escape when opened -> hide (); true
-                | Key.Enter | Key.Character when k.Key = Key.Enter || k.Scalar = 32 ->
+                match k.LogicalKey with
+                | LogicalKey.Ui Escape when opened -> hide (); true
+                | LogicalKey.Whitespace Enter | LogicalKey.Whitespace Space ->
                     if opened then choose cursor.Peek
                     else
                         show ()
                         opened
-                | Key.Down | Key.Up when not opened -> show (); opened
-                | Key.Home when opened -> setCursor 0; true
-                | Key.End when opened -> setCursor (options.Peek.Length - 1); true
+                | LogicalKey.Navigation ArrowDown | LogicalKey.Navigation ArrowUp when not opened -> show (); opened
+                | LogicalKey.Navigation Home when opened -> setCursor 0; true
+                | LogicalKey.Navigation NavigationKey.End when opened -> setCursor (options.Peek.Length - 1); true
                 | _ when opened && list.OnEvent event -> setCursor cursor.Peek; true
                 | _ -> false
             | Focus false -> hide (); false

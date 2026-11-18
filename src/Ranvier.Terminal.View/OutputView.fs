@@ -2,6 +2,7 @@ namespace Ranvier.Terminal.View
 
 open System
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 
@@ -138,11 +139,11 @@ module OutputView =
                                && mouse.Modifiers &&& Modifiers.Shift = Modifiers.None -> moveHistory (-int64 mouse.Delta)
             | Key key when not key.Released && not key.Paste &&
                            key.Modifiers = (if interactive then Modifiers.Shift else Modifiers.None) ->
-                match key.Key with
-                | Key.PageUp -> moveHistory (int64 snapshots.Peek.Frame.Height)
-                | Key.PageDown -> moveHistory (-int64 snapshots.Peek.Frame.Height)
-                | Key.Home -> historyOffset.Value <- snapshots.Peek.HistoryLines; true
-                | Key.End -> historyOffset.Value <- 0; true
+                match key.LogicalKey with
+                | LogicalKey.Navigation PageUp -> moveHistory (int64 snapshots.Peek.Frame.Height)
+                | LogicalKey.Navigation PageDown -> moveHistory (-int64 snapshots.Peek.Frame.Height)
+                | LogicalKey.Navigation Home -> historyOffset.Value <- snapshots.Peek.HistoryLines; true
+                | LogicalKey.Navigation NavigationKey.End -> historyOffset.Value <- 0; true
                 | _ -> false
             | _ -> false
         viewport.OnEvent <- navigate

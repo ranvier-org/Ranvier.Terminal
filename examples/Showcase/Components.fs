@@ -126,19 +126,19 @@ module Components =
 
     let private commands _ =
         let last = createSignal "Choose a command"
-        let actions: Commands.Command array =
+        let actions: Commands.Binding array =
             [| for key, caption in [ 'a', "Add bookmark"; 'r', "Remove bookmark" ] do
-                   { Key = Key.Character; Scalar = int key; Modifiers = Modifiers.Alt
+                   { Commands.Binding.Chord = altLetter key
                      Shortcut = "Alt+" + string (System.Char.ToUpperInvariant key); Caption = caption
                      Enabled = (fun () -> true); Invoke = fun () -> last.Value <- caption } |]
-        let query, results = Commands.palette field floating 2 actions
+        let query, results = Commands.bindingPalette field floating 2 actions
         let expanded = createSignal false
         let content = column [ Css.gap 1 ] {
             card "COMMAND PALETTE" [ query |> id "gallery-command"; signalText last ]
-            card "SHORTCUT HELP" [ Widgets.checkbox [] "Expanded" expanded; Commands.help [] actions (fun () -> expanded.Value) ]
+            card "SHORTCUT HELP" [ Widgets.checkbox [] "Expanded" expanded; Commands.bindingHelp [] actions (fun () -> expanded.Value) ]
         }
         let host = Popup.host content [| results |]
-        host.OnEvent <- Commands.dispatch actions
+        host.OnEvent <- Commands.dispatchBindings actions
         host
 
     let private meters (model: Model) =

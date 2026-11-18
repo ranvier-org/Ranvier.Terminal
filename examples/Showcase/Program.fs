@@ -453,6 +453,14 @@ let verify captureDirectory =
         press "process-stop" mounted
         if not (restarted.Closing.Wait 10000) then failwith "Stop control did not close child."
 
+        model.Page.Value <- Kit.pages () |> Array.findIndex (fun page -> page.Name = "Elmish")
+        render ()
+        let count = (find "elmish-count" mounted.Root |> Option.get).Children[0]
+        press "elmish-increment" mounted
+        if count.Text.Source <> "Count: 1" then failwith "Elmish increment did not update the retained text."
+        press "elmish-undo" mounted
+        if count.Text.Source <> "Count: 0" then failwith "Elmish undo did not restore the previous count."
+
         let galleryIndex = Kit.pages () |> Array.findIndex (fun page -> page.Name = "Components")
         for width, height in [ 80, 24; 120, 40 ] do
             verifyWidth <- width

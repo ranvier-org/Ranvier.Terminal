@@ -9,7 +9,8 @@ previews, subprocess and input guides, and an interactive rendering diagram.
 
 The public abstractions use records, discriminated unions and functions. There are no handwritten
 interfaces, browser dependencies, terminal-framework dependencies or native third-party libraries.
-System APIs provide terminal access. FSharp.Core and Ranvier are dependencies; Ranvier's existing
+System APIs provide terminal access. Ranvier.Keyboard supplies logical keys and shortcut chords.
+FSharp.Core and Ranvier are dependencies; Ranvier's existing
 project also declares Fable.Core and build-time tooling. “Dependency-free” here means no additional
 third-party runtime beyond those required by Ranvier and F#.
 

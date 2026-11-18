@@ -44,7 +44,9 @@ module Kit =
            { Name = "Tasks"
              Build = Pages.tasks }
            { Name = "Components"
-             Build = Components.build } |]
+             Build = Components.build }
+           { Name = "Elmish"
+             Build = ElmishPage.build } |]
 
     let build model =
         let registry = pages ()
@@ -95,7 +97,6 @@ module Kit =
                                           surface
                                   ) ])
 
-                        line ""
                         line "Tab       Next item" |> styled [ Css.color muted ]
                         line "Shift+Tab Previous" |> styled [ Css.color muted ]
                         line "Enter     Activate" |> styled [ Css.color muted ]
@@ -114,9 +115,12 @@ module Kit =
 
         root.OnEvent <-
             function
-            | Key key when not key.Released && not key.Paste && key.Key >= Key.F1 && key.Key <= Key.F12 ->
-                model.Page.Value <- int key.Key - int Key.F1
-                true
+            | Key key when not key.Released && not key.Paste ->
+                match key.LogicalKey with
+                | Ranvier.Keyboard.FunctionKey number when number <= registry.Length ->
+                    model.Page.Value <- number - 1
+                    true
+                | _ -> false
             | _ -> false
 
         root

@@ -2,6 +2,7 @@ namespace Ranvier.Terminal
 
 open System
 open System.Text
+open Ranvier.Keyboard
 
 [<Flags>]
 type Modifiers =
@@ -48,6 +49,42 @@ type KeyEvent =
       Modifiers: Modifiers
       Released: bool
       Paste: bool }
+
+    member this.LogicalKey =
+        match this.Key with
+        | Key.Character when this.Scalar = 32 -> Whitespace Space
+        | Key.Character when Rune.IsValid this.Scalar -> Character (Rune this.Scalar)
+        | Key.Enter -> Whitespace Enter
+        | Key.Tab -> Whitespace Tab
+        | Key.Escape -> Ui Escape
+        | Key.Backspace -> Editing EditingKey.Backspace
+        | Key.Delete -> Editing EditingKey.Delete
+        | Key.Insert -> Editing EditingKey.Insert
+        | Key.Alt -> Modifier Alt
+        | Key.Left -> Navigation ArrowLeft
+        | Key.Right -> Navigation ArrowRight
+        | Key.Up -> Navigation ArrowUp
+        | Key.Down -> Navigation ArrowDown
+        | Key.Home -> Navigation Home
+        | Key.End -> Navigation End
+        | Key.PageUp -> Navigation PageUp
+        | Key.PageDown -> Navigation PageDown
+        | k when k >= Key.F1 && k <= Key.F12 -> FunctionKey (int k - int Key.F1 + 1)
+        | _ -> Unidentified ""
+
+    member this.Chord =
+        let flags = this.Modifiers
+        let modifiers =
+            { KeyModifiers.None with
+                Ctrl = flags &&& Modifiers.Control <> Modifiers.None
+                Alt = flags &&& Modifiers.Alt <> Modifiers.None
+                Shift = flags &&& Modifiers.Shift <> Modifiers.None
+                Meta = flags &&& Modifiers.Super <> Modifiers.None }
+        match this.LogicalKey with
+        | Character rune when not modifiers.Ctrl && not modifiers.Alt && not modifiers.Meta ->
+            // The console has already applied the active layout, including Shift.
+            KeyChord.ofRune rune
+        | logical -> KeyChord.ofLogical logical modifiers
 
 type MouseAction =
     | Press = 0

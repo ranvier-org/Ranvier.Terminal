@@ -161,8 +161,7 @@ module Terminal =
                         | Key key when
                             not key.Released
                             && not key.Paste
-                            && key.Key = Key.Character
-                            && key.Scalar = int 'c'
+                            && key.LogicalKey = Ranvier.Keyboard.Character (System.Text.Rune 'c')
                             && key.Modifiers &&& Modifiers.Control <> Modifiers.None
                             ->
                             running <- View.dispatch event mounted

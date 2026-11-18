@@ -2,6 +2,7 @@ namespace Showcase
 
 open System
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 open Ranvier.Terminal.View
@@ -357,20 +358,20 @@ module Pages =
         scroller.OnEvent <-
             function
             | Key key when not key.Released && not key.Paste ->
-                match key.Key with
-                | Key.Down ->
+                match key.LogicalKey with
+                | LogicalKey.Navigation ArrowDown ->
                     scroller.ScrollY <- min scroller.MaxScrollY (scroller.ScrollY + 1)
                     Node.invalidate scroller
                     true
-                | Key.Up ->
+                | LogicalKey.Navigation ArrowUp ->
                     scroller.ScrollY <- max 0 (scroller.ScrollY - 1)
                     Node.invalidate scroller
                     true
-                | Key.PageDown ->
+                | LogicalKey.Navigation PageDown ->
                     scroller.ScrollY <- min scroller.MaxScrollY (scroller.ScrollY + scroller.Content.Height)
                     Node.invalidate scroller
                     true
-                | Key.PageUp ->
+                | LogicalKey.Navigation PageUp ->
                     scroller.ScrollY <- max 0 (scroller.ScrollY - scroller.Content.Height)
                     Node.invalidate scroller
                     true
@@ -516,15 +517,15 @@ module Pages =
             |> Table.bindSortable columns headings [ Css.color accent ] stages.Length (fun () -> rows.Value) selectedStep sort
         let selectedRow () = rows.Value[(defaultArg selectedStep.Value 1) - 1]
         let running () = model.TaskStop.Value.IsNone && stepTime.Value < int (runtime * 4.)
-        let commands: Commands.Command array =
-            [| { Key = Key.Character; Scalar = int 'b'; Modifiers = Modifiers.Alt; Shortcut = "Alt+B"
+        let commands: Commands.Binding array =
+            [| { Chord = altLetter 'b'; Shortcut = "Alt+B"
                  Caption = "Restart build"; Enabled = (fun () -> true); Invoke = restart }
-               { Key = Key.Character; Scalar = int 'f'; Modifiers = Modifiers.Alt; Shortcut = "Alt+F"
+               { Chord = altLetter 'f'; Shortcut = "Alt+F"
                  Caption = "Fail current step"; Enabled = running; Invoke = fun () -> stop TaskStatus.Failure }
-               { Key = Key.Character; Scalar = int 'x'; Modifiers = Modifiers.Alt; Shortcut = "Alt+X"
+               { Chord = altLetter 'x'; Shortcut = "Alt+X"
                  Caption = "Cancel build"; Enabled = running; Invoke = fun () -> stop TaskStatus.Cancelled } |]
         let query, choices =
-            Commands.palette [ Css.height (Css.cells 1); Css.backgroundColor surface ]
+            Commands.bindingPalette [ Css.height (Css.cells 1); Css.backgroundColor surface ]
                 [ Css.width (Css.cells 28); Css.backgroundColor bright; Css.color background ] 3 commands
         let expanded = createSignal false
         column [ Css.gap 1 ] {
@@ -542,9 +543,9 @@ module Pages =
                 [ line "Type to find a command, then press Enter."
                   query |> id "task-command"
                   Widgets.checkbox [] "Expand shortcut help" expanded
-                  Commands.help [] commands (fun () -> expanded.Value) ]
+                  Commands.bindingHelp [] commands (fun () -> expanded.Value) ]
         }
         |> fun content ->
             let root = Popup.host content [| choices |] |> styled [ Css.height (Css.flex 1) ]
-            root.OnEvent <- Commands.dispatch commands
+            root.OnEvent <- Commands.dispatchBindings commands
             root
