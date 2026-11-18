@@ -95,6 +95,8 @@ module internal PosixPty =
     extern int waitpid(int pid, int& status, int options)
     [<DllImport("libc", SetLastError = true)>]
     extern int kill(int pid, int signal)
+    [<DllImport("/usr/lib/libproc.dylib", SetLastError = true)>]
+    extern int proc_listpids(uint32 filter, uint32 group, [<Out>] int[] ids, int size)
     [<DllImport("libc")>]
     extern int getpid()
     [<DllImport("libc", SetLastError = true)>]
@@ -247,15 +249,28 @@ module internal PosixPty =
                 let mutable exitCode = 0
                 let mutable disposed = false
                 let mutable active = 0
+                let signalGroup () =
+                    if kill(-childId, 9) = 0 then 0
+                    else
+                        let error = errno ()
+                        if mac && error = 1 then
+                            // XNU excludes zombies when signalling a process group. Distinguish an
+                            // exited leader alone from a group with a protected living descendant.
+                            let ids = Array.zeroCreate<int> 2
+                            let bytes = proc_listpids(2u, uint32 childId, ids, 8)
+                            if (bytes = 0 && errno () = 0 || bytes = 4 && ids[0] = childId) && kill(childId, 9) = 0 then 0
+                            else error
+                        else error
                 let terminate () =
                     lock lifeGate (fun () ->
                         if not reaped && not lost && not deferredReap then
-                            if kill(-childId, 9) < 0 && errno () <> 3 then check -1)
+                            let error = signalGroup ()
+                            if error <> 0 && error <> 3 then raise (Win32Exception error))
                 let reap () =
                     lock lifeGate (fun () ->
                         if not reaped && not lost && not deferredReap then
                             // The unreaped leader reserves its ID until this last group signal.
-                            let signalError = if kill(-childId, 9) < 0 then errno () else 0
+                            let signalError = signalGroup ()
                             let mutable status = 0
                             let mutable result = waitpid(childId, &status, 1)
                             while result < 0 && errno () = 4 do result <- waitpid(childId, &status, 1)
