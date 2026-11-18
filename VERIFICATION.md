@@ -303,3 +303,5 @@ suite passed all 35 checks, all sample verifications passed, and the new monitor
 Unfiltered `dotnet test` on that solution and artifact directory exited successfully. Hidden Windows
 monitor demo/live smoke checks passed at both 500 ms and 100 ms, as did native input, mode-restoration
 and dashboard smoke checks. This polling change was not re-executed on Linux or macOS.
+
+Measured in the [initial GitHub verification run](https://github.com/ranvier-org/Ranvier.Terminal/actions/runs/44278590636), the Intel macOS changing-frame allocation gate recorded 12,336 managed bytes over 10,000 frames with tiered compilation enabled. CI runs the steady-state suite with fully optimized JIT compilation from startup. The allocation limit is zero bytes. Application and subprocess checks use the default runtime settings.

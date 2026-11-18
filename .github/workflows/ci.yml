@@ -23,6 +23,8 @@ jobs:
         working-directory: Ranvier.Terminal
         run: dotnet build Ranvier.Terminal.slnx -c Release -m:1 -p:NuGetAudit=false -p:RanvierTrace=false
       - name: Regression and allocation gates
+        env:
+          DOTNET_TieredCompilation: '0'
         working-directory: Ranvier.Terminal
         run: dotnet tests/Ranvier.Terminal.Tests/bin/Release/net10.0/Ranvier.Terminal.Tests.dll
       - name: Documentation site

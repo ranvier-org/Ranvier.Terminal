@@ -105,7 +105,7 @@ let runMode log mode = task {
         let output = joined chunks
         require (code = 23) "exit code was not retained"
         for value in values do
-            require (output.Contains("ARG:" + Convert.ToBase64String(Encoding.UTF8.GetBytes value))) ("argument quoting failed: " + value)
+            require (output.Contains("ARG:" + Convert.ToBase64String(Encoding.UTF8.GetBytes value))) (sprintf "argument quoting failed for %A in %A; captured %d bytes (base64): %s" value mode (chunks |> Array.sumBy (fun c -> c.Bytes.Length)) (chunks |> Array.collect (fun c -> c.Bytes) |> Convert.ToBase64String))
         require (output.Contains "ENV:configured value") "environment update"
         require (output.Contains("CWD:" + config.WorkingDirectory.Value)) "working directory"
         if mode = Redirected then
