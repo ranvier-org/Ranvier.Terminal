@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../src/Ranvier.Terminal/Ranvier.Terminal.fsproj" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="../../examples/SystemMonitor/Telemetry.fs" Link="Telemetry.fs" />
+    <Compile Include="../../examples/SystemMonitor/Model.fs" Link="Model.fs" />
+    <Compile Include="../../examples/SystemMonitor/Screen.fs" Link="Screen.fs" />
+    <Compile Include="../../examples/SystemMonitor/Kit.fs" Link="Kit.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+</Project>

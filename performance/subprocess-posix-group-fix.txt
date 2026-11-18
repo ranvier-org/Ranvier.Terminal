@@ -1,0 +1,24 @@
+PASS Redirected structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS Redirected input and native terminal/resize semantics
+PASS Redirected bounded sustained output with draining
+PASS Redirected concurrent blocked input/output close without caller drain
+PASS Redirected cancellation cleanup without caller drain
+PASS Redirected nonexistent executable cleanup
+PASS Redirected single-byte queue preserves split UTF8
+PASS Redirected close after parent exit unblocks descendant-held pipes
+PASS PosixPseudoTerminal (240, 40) structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS PosixPseudoTerminal (240, 40) input and native terminal/resize semantics
+PASS PosixPseudoTerminal (240, 40) bounded sustained output with draining
+PASS PosixPseudoTerminal (240, 40) concurrent blocked input/output close without caller drain
+PASS PosixPseudoTerminal (240, 40) cancellation cleanup without caller drain
+PASS PosixPseudoTerminal (240, 40) nonexistent executable cleanup
+PASS POSIX controlling terminal, session identity, managed reaper coexistence, resize bounds and exact reaping
+PASS POSIX resize delivers SIGWINCH and kernel terminal dimensions
+PASS POSIX terminal Ctrl+C and signal exit status
+PASS POSIX stubborn child termination, resize/close race and idempotent cleanup
+PASS POSIX parent exit cleans inherited-group descendant holding the slave
+PASS POSIX pending write cancellation leaves session alive and close finishes
+PASS POSIX pre-cancelled startup
+PASS POSIX cancellation racing native startup
+PASS POSIX repeated failed startup descriptor cleanup
+PASS subprocess transport probe

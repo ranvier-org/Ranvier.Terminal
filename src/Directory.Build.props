@@ -1,0 +1,16 @@
+<Project>
+  <Import Project="../Directory.Build.props" />
+  <PropertyGroup>
+    <Authors>Shayan Habibi</Authors>
+    <Description>Native terminal rendering, layout and reactive controls for F# applications.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://ranvier-org.github.io/Ranvier.Terminal/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ranvier-org/Ranvier.Terminal</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>fsharp;terminal;tui;reactive;ranvier</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

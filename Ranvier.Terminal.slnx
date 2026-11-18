@@ -1,10 +1,19 @@
 <Solution>
-  <Project Path="../Ranvier/src/Ranvier/Ranvier.fsproj" />
   <Project Path="src/Ranvier.Terminal.Core/Ranvier.Terminal.Core.fsproj" />
   <Project Path="src/Ranvier.Terminal.Css/Ranvier.Terminal.Css.fsproj" />
   <Project Path="src/Ranvier.Terminal.View/Ranvier.Terminal.View.fsproj" />
+  <Project Path="src/Ranvier.Terminal.Components/Ranvier.Terminal.Components.fsproj" />
   <Project Path="src/Ranvier.Terminal/Ranvier.Terminal.fsproj" />
   <Project Path="tests/Ranvier.Terminal.Tests/Ranvier.Terminal.Tests.fsproj" />
   <Project Path="examples/Dashboard/Dashboard.fsproj" />
   <Project Path="examples/Showcase/Showcase.fsproj" />
+  <Project Path="examples/Utilities/Utilities.fsproj" />
+  <Project Path="examples/SystemMonitor/SystemMonitor.fsproj" />
+  <Project Path="tools/PerfBench/PerfBench.fsproj" />
+  <Project Path="tools/HostProbe/HostProbe.fsproj" />
+  <Project Path="tools/HostParserProbe/HostParserProbe.fsproj" />
+  <Project Path="tools/SubprocessProbe/SubprocessProbe.fsproj" />
+  <Project Path="tools/MonitorProbe/MonitorProbe.fsproj" />
+  <Project Path="tools/WidgetBench/WidgetBench.fsproj" />
+  <Project Path="tools/PreparedBench/PreparedBench.fsproj" />
 </Solution>

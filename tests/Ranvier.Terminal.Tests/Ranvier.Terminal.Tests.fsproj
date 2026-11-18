@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/Ranvier.Terminal/Ranvier.Terminal.fsproj" /></ItemGroup>
-  <ItemGroup><Compile Include="NativeTests.fs" /><Compile Include="Program.fs" /></ItemGroup>
+  <ItemGroup><Compile Include="NativeTests.fs" /><Compile Include="AnsiModel.fs" /><Compile Include="VirtualizationChecks.fs" /><Compile Include="PreparedChecks.fs" /><Compile Include="TerminalKeysChecks.fs" /><Compile Include="OutputBufferChecks.fs" /><Compile Include="OutputViewChecks.fs" /><Compile Include="StyledChecks.fs" /><Compile Include="FigletChecks.fs" /><Compile Include="TableChecks.fs" /><Compile Include="PopupHostChecks.fs" /><Compile Include="PopupWidgetChecks.fs" /><Compile Include="TaskStatusChecks.fs" /><Compile Include="SelectChecks.fs" /><Compile Include="ScrollbarChecks.fs" /><Compile Include="CompositionChecks.fs" /><Compile Include="NavigationChecks.fs" /><Compile Include="Program.fs" /></ItemGroup>
 </Project>

@@ -1,0 +1,107 @@
+  Determining projects to restore...
+  Restored /workspace/Ranvier.Terminal/src/Ranvier.Terminal/Ranvier.Terminal.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tools/HostParserProbe/HostParserProbe.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tools/WidgetBench/WidgetBench.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/src/Ranvier.Terminal.Core/Ranvier.Terminal.Core.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tools/SubprocessProbe/SubprocessProbe.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/src/Ranvier.Terminal.View/Ranvier.Terminal.View.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tools/PreparedBench/PreparedBench.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tests/Ranvier.Terminal.Tests/Ranvier.Terminal.Tests.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tools/HostProbe/HostProbe.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/src/Ranvier.Terminal.Css/Ranvier.Terminal.Css.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/examples/Dashboard/Dashboard.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/examples/Showcase/Showcase.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/examples/Utilities/Utilities.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier.Terminal/tools/PerfBench/PerfBench.fsproj (in 1.89 sec).
+  Restored /workspace/Ranvier/src/Ranvier/Ranvier.fsproj (in 2.72 sec).
+  Ranvier -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier/release_net10.0/Ranvier.dll
+  Ranvier -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier/release_netstandard2.1/Ranvier.dll
+  Ranvier.Terminal.Core -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier.Terminal.Core/release/Ranvier.Terminal.Core.dll
+  Ranvier.Terminal.Css -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier.Terminal.Css/release/Ranvier.Terminal.Css.dll
+  Ranvier.Terminal.View -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier.Terminal.View/release/Ranvier.Terminal.View.dll
+  Ranvier.Terminal -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier.Terminal/release/Ranvier.Terminal.dll
+  Dashboard -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Dashboard/release/Dashboard.dll
+  Showcase -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Showcase/release/Showcase.dll
+  Utilities -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Utilities/release/Utilities.dll
+  Ranvier.Terminal.Tests -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/Ranvier.Terminal.Tests/release/Ranvier.Terminal.Tests.dll
+  HostParserProbe -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/HostParserProbe/release/HostParserProbe.dll
+  HostProbe -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/HostProbe/release/HostProbe.dll
+  PerfBench -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/PerfBench/release/PerfBench.dll
+  PreparedBench -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/PreparedBench/release/PreparedBench.dll
+  SubprocessProbe -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/SubprocessProbe/release/SubprocessProbe.dll
+  WidgetBench -> /workspace/Ranvier.Terminal/artifacts/posix-verification/bin/WidgetBench/release/WidgetBench.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:32.66
+measured here: retained prepared caret/refresh/layout/paint/encode/commit: 10000 changing frames; 0 allocated bytes
+PASS prepared retained view parity
+PASS subprocess key encoding
+PASS streaming output buffer
+PASS reactive output frame
+PASS fixed and variable-height virtualization
+measured here: owned prepared text/paint/encode/commit: 10000 changing frames; 0 allocated bytes
+measured here: prepared scoped scroll/mutation/encode/commit: 10000 changing frames; 0 allocated bytes
+PASS owned prepared renderer
+PASS initial, unchanged, sparse and erased frames
+PASS wide glyph overwrite repairs both cells
+PASS grapheme preparation and escape sanitization
+PASS failed write invalidates snapshot and releases synchronization
+PASS capacity failure happens before output
+PASS resize, palette fallback, monochrome
+PASS fragmented input, mouse, paste, escape and malformed UTF8
+PASS reactive bindings update retained nodes and dispose
+PASS flex layout, padding, clipping and style states
+PASS focus, button activation, Unicode text editing
+PASS dynamic branch owner cleanup
+PASS randomized diff roundtrip against terminal model
+PASS wrapping, bounded scroll bubbling and visible caret
+PASS word wrapping defaults, opt-out, Unicode and clipped layout
+PASS reactive rendering matches full rendering under mutations
+PASS bulk fills repair wide pairs crossing their edges
+PASS style deltas and cursor choices roundtrip independently
+PASS virtual list retains bounded nodes and follows Ranvier state
+PASS horizontal clipping matches a full prepared-text reference
+PASS list selection preserves row identity and changes only selection paint
+PASS conservative rendering cannot leave stale reactive geometry
+PASS reactive presentation retries capacity and flush failures without another mutation
+PASS paint-only inherited colors respect active style rules
+measured here: prepared horizontal scroll painting: 10000 frames; 0 managed bytes
+PASS prepared horizontal scrolling allocates no managed memory
+PASS distant paint damage compares only affected rows
+PASS hiding and restoring a root clears its previous pixels
+PASS sparse rows recover after failed output and resize
+PASS local geometry reuses clean measurements and explicit invalidation refreshes descendants
+measured here: layout + framebuffer paint + diff + UTF8 encoding + null output + commit: 10000 changed frames; 0 managed bytes; 472.723 ms
+measured here: reactive prepared-text updates + mixed full/partial rendering + null output: 10000 changing frames; 0 managed bytes
+PASS steady-state allocation gate
+measured here: executable regression suite: 35 tests, 0 failed
+PASS Redirected structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS Redirected input and native terminal/resize semantics
+PASS Redirected bounded sustained output with draining
+PASS Redirected concurrent blocked input/output close without caller drain
+PASS Redirected cancellation cleanup without caller drain
+PASS Redirected nonexistent executable cleanup
+PASS Redirected single-byte queue preserves split UTF8
+PASS Redirected close after parent exit unblocks descendant-held pipes
+PASS PosixPseudoTerminal (240, 40) structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS PosixPseudoTerminal (240, 40) input and native terminal/resize semantics
+PASS PosixPseudoTerminal (240, 40) bounded sustained output with draining
+PASS PosixPseudoTerminal (240, 40) concurrent blocked input/output close without caller drain
+PASS PosixPseudoTerminal (240, 40) cancellation cleanup without caller drain
+PASS PosixPseudoTerminal (240, 40) nonexistent executable cleanup
+PASS POSIX controlling terminal, session identity, managed reaper coexistence, resize bounds and exact reaping
+PASS POSIX resize delivers SIGWINCH and kernel terminal dimensions
+PASS POSIX terminal Ctrl+C and signal exit status
+PASS POSIX stubborn child termination, resize/close race and idempotent cleanup
+PASS POSIX parent exit cleans inherited-group descendant holding the slave
+PASS POSIX pending write cancellation leaves session alive and close finishes
+PASS POSIX pre-cancelled startup
+PASS POSIX repeated live cancellation kills and reaps stubborn children without caller drain
+PASS POSIX cancellation racing native startup
+PASS POSIX repeated failed startup descriptor cleanup
+PASS subprocess transport probe
+PASS POSIX ignored SIGCHLD ownership rejection
+measured here: utilities headless verification passed (live output, subprocess input/exit, history, resize, hot reload and disposal).

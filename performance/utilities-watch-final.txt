@@ -1,0 +1,15 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Ranvier.Terminal.Core -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal.Core\debug\Ranvier.Terminal.Core.dll
+  Ranvier.Terminal.Css -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal.Css\debug\Ranvier.Terminal.Css.dll
+  Ranvier -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier\debug_net10.0\Ranvier.dll
+  Ranvier.Terminal.View -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal.View\debug\Ranvier.Terminal.View.dll
+  Ranvier.Terminal -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal\debug\Ranvier.Terminal.dll
+  Utilities -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Utilities\debug\Utilities.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.44
+measured here: utilities headless verification passed (live output, subprocess input/exit, history, resize, hot reload and disposal).

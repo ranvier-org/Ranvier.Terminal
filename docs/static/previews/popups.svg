@@ -1,0 +1,35 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 112' width='384' height='112'>
+<title>Caret completion for A with Azure highlighted</title>
+<g font-family='Consolas,DejaVu Sans Mono,monospace' font-size='13' xml:space='preserve'>
+<rect x='0' y='0' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='16' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='32' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='48' width='16' height='16' fill='#141d2c'/>
+<rect x='16' y='48' width='8' height='16' fill='#2a485c'/>
+<rect x='24' y='48' width='8' height='16' fill='#e6effa'/>
+<rect x='32' y='48' width='336' height='16' fill='#2a485c'/>
+<rect x='368' y='48' width='16' height='16' fill='#141d2c'/>
+<rect x='0' y='64' width='24' height='16' fill='#141d2c'/>
+<rect x='24' y='64' width='192' height='16' fill='#e6effa'/>
+<rect x='216' y='64' width='168' height='16' fill='#141d2c'/>
+<rect x='0' y='80' width='384' height='16' fill='#0c121d'/>
+<rect x='0' y='96' width='384' height='16' fill='#0c121d'/>
+<path transform='translate(0 0)' d='M4.5 16V12Q4.5 8.5 8 8.5' stroke='#e6effa' fill='none'/>
+<rect x='8' y='8' width='368' height='1' fill='#e6effa'/>
+<path transform='translate(376 0)' d='M0 8.5Q4.5 8.5 4.5 12V16' stroke='#e6effa' fill='none'/>
+<rect x='4' y='16' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='29' fill='#65e0c8' font-weight='bold' textLength='128' lengthAdjust='spacingAndGlyphs'>CARET COMPLETION</text>
+<rect x='380' y='16' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='32' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='45' fill='#e6effa' font-weight='normal' textLength='272' lengthAdjust='spacingAndGlyphs'>Type a color, then choose a match.</text>
+<rect x='380' y='32' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='48' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='61' fill='#e6effa' font-weight='bold' textLength='8' lengthAdjust='spacingAndGlyphs'>A</text>
+<rect x='380' y='48' width='1' height='16' fill='#e6effa'/>
+<path transform='translate(0 64)' d='M4.5 0V5Q4.5 8.5 8 8.5' stroke='#e6effa' fill='none'/>
+<rect x='8' y='72' width='16' height='1' fill='#e6effa'/>
+<text x='24' y='77' fill='#0c121d' font-weight='normal' textLength='40' lengthAdjust='spacingAndGlyphs'>Amber</text>
+<rect x='216' y='72' width='160' height='1' fill='#e6effa'/>
+<path transform='translate(376 64)' d='M0 8.5Q4.5 8.5 4.5 5V0' stroke='#e6effa' fill='none'/>
+<text x='24' y='93' fill='#e6effa' font-weight='normal' textLength='40' lengthAdjust='spacingAndGlyphs'>Azure</text>
+</g></svg>

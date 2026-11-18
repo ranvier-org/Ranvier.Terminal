@@ -2,3 +2,5 @@
 **/obj/
 .serena/
 artifacts/
+
+**/.SageFs/

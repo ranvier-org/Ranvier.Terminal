@@ -1,0 +1,1 @@
+PASS owned initial viewport, idle PTY resize, no-button hover, mouse opt-out and terminal mode cleanup

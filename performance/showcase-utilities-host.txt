@@ -1,0 +1,2 @@
+measured here: native Windows mode entry/restoration, injected key repeats, all directional keys (repeat and release), and mouse input passed. Actual console diff/encode/write/flush/commit: 1000 changing frames, 0 managed bytes.
+measured here: hidden Windows terminal session smoke test exited successfully.

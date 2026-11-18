@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <FSharpCoreImplicitPackageVersion>10.0.100</FSharpCoreImplicitPackageVersion>
+    <D5Version Condition="'$(D5Version)' == ''">0.1.2-local.1</D5Version>
+    <D5Feed Condition="'$(D5Feed)' == ''">$(MSBuildThisFileDirectory)../../../../Ranvier.D5/artifacts/fickl-feed</D5Feed>
+    <RestoreAdditionalProjectSources Condition="Exists('$(D5Feed)')">$(RestoreAdditionalProjectSources);$(D5Feed)</RestoreAdditionalProjectSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Architecture.fs" />
+    <Compile Include="Showcase.fs" />
+    <PackageReference Include="Ranvier.D5" Version="$(D5Version)" />
+    <PackageReference Include="Ranvier.View.Dom" Version="0.1.50" />
+  </ItemGroup>
+</Project>

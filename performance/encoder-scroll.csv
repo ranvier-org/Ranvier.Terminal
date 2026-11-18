@@ -1,0 +1,5 @@
+workload,median_us,max_batch_us,bytes,allocated_bytes
+diff-null,0.093,0.095,1739,0.000
+scroll-null,0.387,0.503,109,0.000
+diff-native,78.626,84.952,1739,0.000
+scroll-native,24.472,28.314,109,0.000

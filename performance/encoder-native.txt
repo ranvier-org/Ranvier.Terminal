@@ -1,0 +1,5 @@
+measured here: erase-default: independent model PASS; hidden Windows screen readback PASS
+measured here: repeat-ascii: independent model PASS; hidden Windows screen readback PASS
+measured here: scroll-region: independent model PASS; hidden Windows screen readback PASS
+measured here: blue-background ECH attribute equivalence: True
+measured here: native cursor absolute position and visible state readback PASS; presentation latency unmeasured

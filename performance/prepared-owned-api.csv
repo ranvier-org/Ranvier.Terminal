@@ -1,0 +1,15 @@
+workload,median_us,max_batch_us,allocated_bytes
+ordinary-ascii-sparse,0.575,0.662,0.000
+prepared-ascii-sparse,0.185,0.193,0.000
+ordinary-ascii-dense,197.289,212.272,0.000
+prepared-ascii-dense,52.770,58.225,0.000
+ordinary-unicode-sparse,0.615,0.850,0.000
+prepared-unicode-sparse,0.298,0.309,0.000
+ordinary-unicode-dense,262.264,268.828,0.000
+prepared-unicode-dense,65.142,65.473,0.000
+ordinary-wrapped-paint,80.598,82.425,160.000
+ordinary-register-warm,3.059,4.244,10828.000
+prepared-wrapped-paint,12.094,12.412,160.000
+prepared-register-warm,5.176,5.973,11876.000
+ordinary-setup-register,153.919,162.894,904095.200
+prepared-setup-register,16.961,18.684,424613.440

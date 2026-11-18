@@ -34,26 +34,40 @@ module Kit =
            { Name = "Rendering"
              Build = Pages.rendering }
            { Name = "Input / scroll"
-             Build = Pages.input } |]
+             Build = Pages.input }
+           { Name = "Live output"
+             Build = UtilityPages.streaming }
+           { Name = "Subprocess"
+             Build = UtilityPages.terminal }
+           { Name = "Instruments"
+             Build = Pages.instruments }
+           { Name = "Tasks"
+             Build = Pages.tasks }
+           { Name = "Components"
+             Build = Components.build } |]
 
     let build model =
         let registry = pages ()
 
         let page =
             each (fun () -> [| model.Page.Value |]) (fun index -> registry[index].Build model)
-            |> styled [ Css.height (Css.flex 1) ]
+            |> styled
+                (Css.height (Css.flex 1) ::
+                 Css.tableScrollbar
+                     { Paint.empty with Foreground = muted; Background = surface }
+                     { Paint.empty with Foreground = accent; Background = surface })
 
         let root =
-            column [ Css.backgroundColor background; Css.color bright; Css.paddingXY 1 0 ] {
+            column [ Css.backgroundColor background; Css.color bright; Css.paddingXY sidePadding 0 ] {
                 row [ Css.height (Css.cells 1); Css.gap 3 ] {
                     title "RANVIER / TERMINAL"
                     line "interactive feature showcase"
                     signalText model.Clock
                 }
 
-                row [ Css.height (Css.flex 1); Css.gap 2 ] {
+                row [ Css.height (Css.flex 1); Css.gap pageGap ] {
                     panel
-                        [ Css.width (Css.cells 23)
+                        [ Css.width (Css.cells sidebarWidth)
                           Css.border Rounded
                           Css.paddingXY 1 0
                           Css.backgroundColor surface ] {
@@ -62,7 +76,8 @@ module Kit =
                         for index = 0 to registry.Length - 1 do
                             button
                                 ("page-" + string index)
-                                (sprintf " F%d  %s " (index + 1) registry[index].Name)
+                                (if index < 12 then sprintf " F%d  %s " (index + 1) registry[index].Name
+                                 else sprintf "      %s " registry[index].Name)
                                 (fun () -> model.Page.Value <- index)
                             |> bindStyle (fun () ->
                                 [ Css.height (Css.cells 1)
@@ -81,10 +96,10 @@ module Kit =
                                   ) ])
 
                         line ""
-                        note "Tab / Shift+Tab\nMove focus"
-                        note "Enter / Space\nActivate"
-                        note "Mouse wheel\nScroll content"
-                        line ""
+                        line "Tab       Next item" |> styled [ Css.color muted ]
+                        line "Shift+Tab Previous" |> styled [ Css.color muted ]
+                        line "Enter     Activate" |> styled [ Css.color muted ]
+                        line "Wheel     Scroll" |> styled [ Css.color muted ]
                         button "exit" " Exit showcase " (fun () -> model.Exit <- true)
                     }
 
@@ -99,7 +114,7 @@ module Kit =
 
         root.OnEvent <-
             function
-            | Key key when not key.Released && not key.Paste && key.Key >= Key.F1 && key.Key <= Key.F8 ->
+            | Key key when not key.Released && not key.Paste && key.Key >= Key.F1 && key.Key <= Key.F12 ->
                 model.Page.Value <- int key.Key - int Key.F1
                 true
             | _ -> false

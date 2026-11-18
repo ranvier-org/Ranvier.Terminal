@@ -1,0 +1,20 @@
+  Determining projects to restore...
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Core\Ranvier.Terminal.Core.fsproj (in 164 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Css\Ranvier.Terminal.Css.fsproj (in 164 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.View\Ranvier.Terminal.View.fsproj (in 164 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal\Ranvier.Terminal.fsproj (in 165 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj (in 165 ms).
+  Restored C:\wk\ranvier-release\Ranvier\src\Ranvier\Ranvier.fsproj (in 230 ms).
+  Ranvier.Terminal.Core -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-watch\bin\Ranvier.Terminal.Core\debug\Ranvier.Terminal.Core.dll
+  Ranvier.Terminal.Css -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-watch\bin\Ranvier.Terminal.Css\debug\Ranvier.Terminal.Css.dll
+  Ranvier -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-watch\bin\Ranvier\debug_net10.0\Ranvier.dll
+  Ranvier.Terminal.View -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-watch\bin\Ranvier.Terminal.View\debug\Ranvier.Terminal.View.dll
+  Ranvier.Terminal -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-watch\bin\Ranvier.Terminal\debug\Ranvier.Terminal.dll
+  showcase -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-watch\bin\showcase\debug\showcase.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:18.49
+measured here: showcase verification passed; 180 rendered frames across all registered pages and viewport sizes; controls, editing, disposal, collection changes, modes, redraw, scrolling, shortcuts and repeated directional navigation checked.

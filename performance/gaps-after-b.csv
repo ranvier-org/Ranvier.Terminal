@@ -1,0 +1,2 @@
+workload,median_us,max_sample_us,allocated_bytes_per_iteration,output_bytes_per_iteration,compared_cells_per_iteration,copied_cells_per_iteration
+output-gaps,111.982,127.894,0.000,13671.000,8000.000,8000.000

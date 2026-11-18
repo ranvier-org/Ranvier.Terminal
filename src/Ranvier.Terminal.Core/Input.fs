@@ -39,6 +39,7 @@ type Key =
     | F10 = 24
     | F11 = 25
     | F12 = 26
+    | Alt = 27
 
 [<Struct>]
 type KeyEvent =
@@ -190,6 +191,7 @@ module InputParser =
                     | 57355 -> Key.PageDown
                     | 57356 -> Key.Home
                     | 57357 -> Key.End
+                    | 57443 | 57449 -> Key.Alt
                     | _ -> Key.Character
 
                 key code p[0] modifiers (p[2] = 3) parser

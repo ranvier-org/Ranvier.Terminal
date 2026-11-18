@@ -1,0 +1,20 @@
+  Determining projects to restore...
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Core\Ranvier.Terminal.Core.fsproj (in 157 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.View\Ranvier.Terminal.View.fsproj (in 159 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal\Ranvier.Terminal.fsproj (in 159 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\examples\SystemMonitor\SystemMonitor.fsproj (in 159 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Css\Ranvier.Terminal.Css.fsproj (in 157 ms).
+  Restored C:\wk\ranvier-release\Ranvier\src\Ranvier\Ranvier.fsproj (in 210 ms).
+  Ranvier.Terminal.Core -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\system-monitor-watch\bin\Ranvier.Terminal.Core\debug\Ranvier.Terminal.Core.dll
+  Ranvier.Terminal.Css -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\system-monitor-watch\bin\Ranvier.Terminal.Css\debug\Ranvier.Terminal.Css.dll
+  Ranvier -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\system-monitor-watch\bin\Ranvier\debug_net10.0\Ranvier.dll
+  Ranvier.Terminal.View -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\system-monitor-watch\bin\Ranvier.Terminal.View\debug\Ranvier.Terminal.View.dll
+  Ranvier.Terminal -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\system-monitor-watch\bin\Ranvier.Terminal\debug\Ranvier.Terminal.dll
+  SystemMonitor -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\system-monitor-watch\bin\SystemMonitor\debug\SystemMonitor.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:20.00
+measured here: monitor responsive rendering, retained parity, demo animation, pause, filter, sorting, selection, empty results, registry reload and live sampling passed.

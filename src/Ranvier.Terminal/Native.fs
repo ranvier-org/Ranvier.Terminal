@@ -3,12 +3,58 @@ namespace Ranvier.Terminal
 open System
 open System.ComponentModel
 open System.Runtime.InteropServices
+open System.Threading
 
 type NativeInput =
     { Poll: (InputEvent -> unit) -> unit
       Close: unit -> unit }
 
 module internal Native =
+    type Waiter =
+        { Wake: unit -> unit
+          Wait: int -> unit
+          Close: unit -> unit }
+
+    type ParserInput =
+        { Feed: byte[] -> int -> unit
+          PollEscape: unit -> unit
+          NextWait: unit -> int }
+
+    let createParserInput clock emit =
+        let parser = InputParser.create emit
+        let mutable escapeAt = 0L
+        // Bytes can arrive between any wake and Poll, so only the parser owns this deadline.
+        let nextWait () =
+            if parser.State = 1 then int (max 0L (30L - (clock () - escapeAt)))
+            else -1
+        { Feed = fun bytes count ->
+              if count > 0 then
+                  InputParser.feedBytes bytes 0 count parser
+                  if parser.State = 1 then escapeAt <- clock ()
+          PollEscape = fun () -> if nextWait () = 0 then InputParser.flushEscape parser
+          NextWait = nextWait }
+
+    let parserTimeout requested nextParserWait =
+        let parserDelay = nextParserWait ()
+        if requested < 0 then parserDelay
+        elif parserDelay < 0 then requested
+        else min requested parserDelay
+
+    [<DllImport("kernel32.dll", SetLastError = true)>]
+    extern uint32 WaitForMultipleObjects(uint32 count, nativeint[] handles, bool all, uint32 timeout)
+
+    [<DllImport("libc", SetLastError = true)>]
+    extern int pipe(int[] descriptors)
+
+    [<DllImport("libc", SetLastError = true)>]
+    extern int fcntl(int descriptor, int command, int flags)
+
+    [<DllImport("libc", SetLastError = true)>]
+    extern nativeint write(int descriptor, byte[] buffer, unativeint count)
+
+    [<DllImport("libc")>]
+    extern int close(int descriptor)
+
     [<DllImport("kernel32.dll", SetLastError = true)>]
     extern nativeint GetStdHandle(int handle)
 
@@ -33,8 +79,15 @@ module internal Native =
     [<DllImport("libc")>]
     extern void cfmakeraw(nativeint attributes)
 
-    [<DllImport("libc", SetLastError = true)>]
-    extern int poll(nativeint fds, unativeint count, int timeout)
+    [<DllImport("libc", EntryPoint = "poll", SetLastError = true)>]
+    extern int pollLinux(nativeint fds, unativeint count, int timeout)
+
+    [<DllImport("libc", EntryPoint = "poll", SetLastError = true)>]
+    extern int pollMac(nativeint fds, uint32 count, int timeout)
+
+    let private poll (fds, count, timeout) =
+        if OperatingSystem.IsMacOS() then pollMac(fds, uint32 count, timeout)
+        else pollLinux(fds, count, timeout)
 
     [<DllImport("libc", SetLastError = true)>]
     extern nativeint read(int fd, byte[] buffer, unativeint count)
@@ -124,7 +177,9 @@ module internal Native =
                             let virtualKey = int (Marshal.ReadInt16(buffer, 10))
                             let character = char (uint16 (Marshal.ReadInt16(buffer, 14)))
                             let mods = modifiers (Marshal.ReadInt32(buffer, 16))
-                            let code = windowsKey virtualKey
+                            let code =
+                                if (virtualKey = 0x12 || virtualKey = 0xA4 || virtualKey = 0xA5) && character = '\000' then Key.Alt
+                                else windowsKey virtualKey
 
                             if Char.IsHighSurrogate character then
                                 highSurrogate <- character
@@ -192,7 +247,7 @@ module internal Native =
                         | 16 -> emit (Focus(Marshal.ReadInt32(buffer, 4) <> 0))
                         | _ -> () }
 
-    let unix () =
+    let private unixWithDeadline () =
         if not (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()) then
             raise (PlatformNotSupportedException "The native input host supports Windows, Linux, and macOS.")
 
@@ -222,8 +277,7 @@ module internal Native =
 
         let mutable closed = false
         let mutable destination = ignore
-        let parser = InputParser.create (fun event -> destination event)
-        let mutable escapeAt = 0L
+        let parser = createParserInput (fun () -> Environment.TickCount64) (fun event -> destination event)
 
         { Close =
             fun () ->
@@ -257,15 +311,79 @@ module internal Native =
                             raise (System.IO.EndOfStreamException())
 
                         if count > 0 then
-                            InputParser.feedBytes buffer 0 count parser
-
-                        if parser.State = 1 then
-                            escapeAt <- Environment.TickCount64
+                            parser.Feed buffer count
                     elif flags &&& 24 <> 0 then
                         raise (System.IO.EndOfStreamException())
 
-                if parser.State = 1 && Environment.TickCount64 - escapeAt >= 30L then
-                    InputParser.flushEscape parser }
+                parser.PollEscape() }, parser.NextWait
+
+    let unix () = unixWithDeadline () |> fst
+
+    let openInputWithDeadline () =
+        if OperatingSystem.IsWindows() then windows (), (fun () -> -1)
+        else unixWithDeadline ()
 
     let openInput () =
         if OperatingSystem.IsWindows() then windows () else unix ()
+
+    // Only the owning host waits; wakes may arrive concurrently from graph posts or cancellation.
+    let createWaiter nextParserWait =
+        let gate = obj ()
+        let mutable closed = false
+        if OperatingSystem.IsWindows() then
+            let wake = new AutoResetEvent(false)
+            let handles = [| GetStdHandle -10; wake.SafeWaitHandle.DangerousGetHandle() |]
+            { Wake = fun () -> lock gate (fun () -> if not closed then wake.Set() |> ignore)
+              Wait = fun timeout ->
+                  let result = WaitForMultipleObjects(2u, handles, false, uint32 timeout)
+                  if result = UInt32.MaxValue then check false
+              Close = fun () -> lock gate (fun () -> if not closed then closed <- true; wake.Dispose()) }
+        else
+            let descriptors = Array.zeroCreate<int> 2
+            unixCheck (pipe descriptors)
+            let mutable pollDescriptors = 0n
+            let mutable resize: PosixSignalRegistration = null
+            try
+                let nonblocking = if OperatingSystem.IsMacOS() then 4 else 2048
+                for descriptor in descriptors do
+                    let flags = fcntl(descriptor, 3, 0)
+                    unixCheck flags
+                    unixCheck (fcntl(descriptor, 4, flags ||| nonblocking))
+                pollDescriptors <- Marshal.AllocHGlobal 16
+                for offset, descriptor in [ 0, 0; 8, descriptors[0] ] do
+                    Marshal.WriteInt32(pollDescriptors, offset, descriptor)
+                    Marshal.WriteInt16(pollDescriptors, offset + 4, 1s)
+                    Marshal.WriteInt16(pollDescriptors, offset + 6, 0s)
+                let notification = [| 1uy |]
+                let drain = Array.zeroCreate<byte> 256
+                let wake () =
+                    lock gate (fun () ->
+                        if not closed then
+                            // A full nonblocking pipe already contains a wake notification.
+                            let mutable result = write(descriptors[1], notification, 1un)
+                            while result < 0n && Marshal.GetLastPInvokeError() = 4 do
+                                result <- write(descriptors[1], notification, 1un))
+                resize <- PosixSignalRegistration.Create(PosixSignal.SIGWINCH, fun context -> context.Cancel <- true; wake ())
+                { Wake = wake
+                  Wait = fun timeout ->
+                      // Poll may consume input after any wake reason; ask its actual parser state.
+                      let delay = parserTimeout timeout nextParserWait
+                      let ready = poll(pollDescriptors, 2un, delay)
+                      if ready < 0 && Marshal.GetLastPInvokeError() <> 4 then unixCheck ready
+                      if ready > 0 && int (Marshal.ReadInt16(pollDescriptors, 14)) &&& 1 <> 0 then
+                          while int (read(descriptors[0], drain, unativeint drain.Length)) = drain.Length do ()
+                  Close = fun () ->
+                      // Dispose outside gate: an in-flight signal callback may be waiting for it.
+                      resize.Dispose()
+                      lock gate (fun () ->
+                          if not closed then
+                              closed <- true
+                              close descriptors[0] |> ignore
+                              close descriptors[1] |> ignore
+                              Marshal.FreeHGlobal pollDescriptors) }
+            with _ ->
+                if not (isNull resize) then resize.Dispose()
+                if pollDescriptors <> 0n then Marshal.FreeHGlobal pollDescriptors
+                close descriptors[0] |> ignore
+                close descriptors[1] |> ignore
+                reraise ()

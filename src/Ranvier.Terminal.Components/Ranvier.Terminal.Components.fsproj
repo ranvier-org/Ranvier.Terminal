@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Optional spinner, pulse and meter styles for Ranvier.Terminal.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Ranvier.Terminal.View/Ranvier.Terminal.View.fsproj" />
+    <Compile Include="Indicators.fs" />
+  </ItemGroup>
+</Project>

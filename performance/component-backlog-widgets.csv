@@ -1,0 +1,6 @@
+workload,median_us,max_batch_us,allocated_bytes_per_iteration
+spinner-tick-through-null-output,1.715,2.099,0.000
+finished-task-host-tick-through-idle-present,0.008,0.012,0.000
+figlet-changing-heading-through-null-output,15.272,19.399,14299.913
+typed-sort-1000-integers-reverse-and-order,95.020,99.102,4200.000
+typed-sort-1000-integers-cached-order,0.005,0.007,0.000

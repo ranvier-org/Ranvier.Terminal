@@ -1,0 +1,42 @@
+#architecture-flow .frame-explorer {
+  margin-block: 1.5rem;
+  padding: clamp(.9rem, 3vw, 1.5rem);
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  border-radius: .65rem;
+}
+#architecture-flow .frame-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+#architecture-flow button {
+  cursor: pointer;
+  font: inherit;
+  font-size: .92rem;
+  color: inherit;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  padding: .45rem .75rem;
+  border-radius: .4rem;
+}
+#architecture-flow button[aria-pressed=true] {
+  color: white;
+  background: #17675e;
+  border-color: #17675e;
+}
+#architecture-flow button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+#architecture-flow .frame-explanation { margin: 1rem 0 .45rem; }
+#architecture-flow svg { display: block; width: 100%; max-width: 34rem; margin-inline: auto; }
+#architecture-flow .flow-edge { fill: none; stroke: currentColor; opacity: .22; stroke-width: 1.4; }
+#architecture-flow .flow-edge.selected { stroke: #368778; opacity: 1; stroke-width: 2.8; }
+#architecture-flow .flow-stage rect { fill: Canvas; stroke: GrayText; stroke-dasharray: 3 2; }
+#architecture-flow .flow-stage text { font: 12px system-ui, sans-serif; fill: CanvasText; }
+#architecture-flow .flow-stage.selected rect { fill: #17675e; stroke: #17675e; stroke-dasharray: none; }
+#architecture-flow .flow-stage.selected text { fill: white; font-weight: 600; }
+@media (forced-colors: active) {
+  #architecture-flow .flow-stage.selected rect { fill: Highlight; stroke: Highlight; }
+  #architecture-flow .flow-stage.selected text { fill: HighlightText; }
+}

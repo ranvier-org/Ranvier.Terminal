@@ -1,12 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="../Ranvier.Terminal.Css/Ranvier.Terminal.Css.fsproj" />
-    <ProjectReference Include="../../../Ranvier/src/Ranvier/Ranvier.fsproj" />
+    <PackageReference Include="Ranvier" Version="0.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tree.fs" />
     <Compile Include="Layout.fs" />
+    <Compile Include="PreparedLayout.fs" />
     <Compile Include="Dsl.fs" />
+    <Compile Include="OutputView.fs" />
     <Compile Include="Widgets.fs" />
+    <Compile Include="Popup.fs" />
+    <Compile Include="PopupWidgets.fs" />
+    <Compile Include="Select.fs" />
+    <Compile Include="Commands.fs" />
+    <Compile Include="Styled.fs" />
+    <Compile Include="TaskStatus.fs" />
+    <Compile Include="Figlet.fs" />
+    <EmbeddedResource Include="Fonts/Compact.flf" LogicalName="Ranvier.Terminal.Compact.flf" />
+    <Compile Include="Table.fs" />
+    <Compile Include="Navigation.fs" />
+    <Compile Include="Templates.fs" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,9 @@
+workload,median_us,max_batch_us,allocated_bytes_per_iteration
+fixed-baseline-selection,2.944,3.017,4640.000
+fixed-baseline-scroll,4.682,4.808,13086.600
+fixed-candidate-selection,0.324,0.374,0.000
+fixed-candidate-scroll,4.121,4.167,8446.600
+variable-materialized-scroll-pipeline,737.743,884.726,0.000
+variable-materialized-resize-pipeline,2790.960,3275.790,47360.000
+variable-virtual-scroll-pipeline,36.148,40.225,22811.949
+variable-virtual-resize-pipeline,10462.960,11385.900,41750064.000

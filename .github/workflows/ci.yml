@@ -1,20 +1,21 @@
 name: Verify
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
 jobs:
   verify:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest, macos-15-intel]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:
           path: Ranvier.Terminal
-      - uses: actions/checkout@v4
-        with:
-          repository: ranvier-org/Ranvier
-          ref: 25a4452669c0853f75c59724f7f7264959c3fa1a
-          path: Ranvier
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
@@ -24,6 +25,62 @@ jobs:
       - name: Regression and allocation gates
         working-directory: Ranvier.Terminal
         run: dotnet tests/Ranvier.Terminal.Tests/bin/Release/net10.0/Ranvier.Terminal.Tests.dll
+      - name: Documentation site
+        if: runner.os == 'Linux'
+        working-directory: Ranvier.Terminal
+        run: dotnet run --project docs/docs.fsproj -c Release -- build --strict
       - name: Live headless dashboard
         working-directory: Ranvier.Terminal
         run: dotnet examples/Dashboard/bin/Release/net10.0/Dashboard.dll --headless
+      - name: Native PTY viewport and hover
+        if: runner.os != 'Windows'
+        working-directory: Ranvier.Terminal
+        run: python3 tools/HostProbe/posix.py tools/HostProbe/bin/Release/net10.0/HostProbe.dll
+      - name: Subprocess terminal lifecycle
+        working-directory: Ranvier.Terminal
+        run: dotnet tools/SubprocessProbe/bin/Release/net10.0/SubprocessProbe.dll subprocess-verification.txt
+      - name: System monitor example
+        working-directory: Ranvier.Terminal
+        run: dotnet examples/SystemMonitor/bin/Release/net10.0/SystemMonitor.dll --verify
+      - name: Monitor input and slow-sampler regressions
+        working-directory: Ranvier.Terminal
+        run: dotnet tools/MonitorProbe/bin/Release/net10.0/MonitorProbe.dll
+      - name: Preserve subprocess evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: subprocess-${{ matrix.os }}
+          path: Ranvier.Terminal/subprocess-verification.txt
+      - name: Verify Showcase and utility examples
+        working-directory: Ranvier.Terminal
+        run: |
+          dotnet examples/Showcase/bin/Release/net10.0/Showcase.dll --verify
+          dotnet examples/Utilities/bin/Release/net10.0/Utilities.dll --verify
+      - name: Pack libraries and run standalone consumer
+        if: runner.os == 'Linux'
+        working-directory: Ranvier.Terminal
+        shell: pwsh
+        run: ./scripts/pack.ps1
+      - uses: actions/upload-artifact@v4
+        if: runner.os == 'Linux'
+        with:
+          name: nuget-packages
+          path: Ranvier.Terminal/artifacts/packages/*.nupkg
+          if-no-files-found: error
+      - uses: actions/upload-pages-artifact@v3
+        if: runner.os == 'Linux' && github.event_name == 'push'
+        with:
+          path: Ranvier.Terminal/docs/output
+  docs:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deploy

@@ -1,0 +1,200 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 240' width='384' height='240'>
+<title>Two-color and fractional meter styles</title>
+<g font-family='Consolas,DejaVu Sans Mono,monospace' font-size='13' xml:space='preserve'>
+<rect x='0' y='0' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='16' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='32' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='48' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='64' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='80' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='96' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='112' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='128' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='144' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='160' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='176' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='192' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='208' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='224' width='384' height='16' fill='#141d2c'/>
+<path transform='translate(0 0)' d='M4.5 16V12Q4.5 8.5 8 8.5' stroke='#e6effa' fill='none'/>
+<rect x='8' y='8' width='368' height='1' fill='#e6effa'/>
+<path transform='translate(376 0)' d='M0 8.5Q4.5 8.5 4.5 12V16' stroke='#e6effa' fill='none'/>
+<rect x='4' y='16' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='29' fill='#65e0c8' font-weight='bold' textLength='128' lengthAdjust='spacingAndGlyphs'>TWO-COLOR METERS</text>
+<rect x='380' y='16' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='32' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='45' fill='#e6effa' font-weight='normal' textLength='72' lengthAdjust='spacingAndGlyphs'>Thin line</text>
+<rect x='144' y='40' width='88' height='1' fill='#65e0c8'/>
+<rect x='232' y='40' width='56' height='1' fill='#93a6be'/>
+<rect x='380' y='32' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='48' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='61' fill='#e6effa' font-weight='normal' textLength='80' lengthAdjust='spacingAndGlyphs'>Heavy line</text>
+<text x='144' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='152' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='160' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='168' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='176' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='184' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='192' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='200' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='208' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='216' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='224' y='61' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='232' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='240' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='248' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='256' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='264' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='272' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<text x='280' y='61' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>━</text>
+<rect x='380' y='48' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='64' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='77' fill='#e6effa' font-weight='normal' textLength='88' lengthAdjust='spacingAndGlyphs'>Double line</text>
+<text x='144' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='152' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='160' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='168' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='176' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='184' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='192' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='200' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='208' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='216' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='224' y='77' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='232' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='240' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='248' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='256' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='264' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='272' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<text x='280' y='77' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>═</text>
+<rect x='380' y='64' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='80' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='93' fill='#e6effa' font-weight='normal' textLength='80' lengthAdjust='spacingAndGlyphs'>Half block</text>
+<rect x='144' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='152' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='160' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='168' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='176' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='184' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='192' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='200' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='208' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='216' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='224' y='88' width='8' height='8' fill='#65e0c8'/>
+<rect x='232' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='240' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='248' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='256' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='264' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='272' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='280' y='88' width='8' height='8' fill='#93a6be'/>
+<rect x='380' y='80' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='96' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='109' fill='#e6effa' font-weight='normal' textLength='40' lengthAdjust='spacingAndGlyphs'>Solid</text>
+<rect x='144' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='152' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='160' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='168' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='176' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='184' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='192' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='200' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='208' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='216' y='96' width='8' height='16' fill='#65e0c8'/>
+<rect x='224' y='96' width='8' height='16' fill='#65e0c8'/>
+<text x='232' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<text x='240' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<text x='248' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<text x='256' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<text x='264' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<text x='272' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<text x='280' y='109' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>░</text>
+<rect x='380' y='96' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='112' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='125' fill='#e6effa' font-weight='normal' textLength='72' lengthAdjust='spacingAndGlyphs'>Segmented</text>
+<text x='144' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='152' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='160' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='168' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='176' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='184' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='192' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='200' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='208' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='216' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='224' y='125' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▮</text>
+<text x='232' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<text x='240' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<text x='248' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<text x='256' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<text x='264' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<text x='272' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<text x='280' y='125' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>▯</text>
+<rect x='380' y='112' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='128' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='141' fill='#e6effa' font-weight='normal' textLength='32' lengthAdjust='spacingAndGlyphs'>Dots</text>
+<text x='144' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='152' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='160' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='168' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='176' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='184' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='192' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='200' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='208' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='216' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='224' y='141' fill='#65e0c8' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='232' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='240' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='248' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='256' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='264' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='272' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='280' y='141' fill='#93a6be' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<rect x='380' y='128' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='144' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='157' fill='#e6effa' font-weight='normal' textLength='40' lengthAdjust='spacingAndGlyphs'>ASCII</text>
+<text x='144' y='157' fill='#65e0c8' font-weight='normal' textLength='88' lengthAdjust='spacingAndGlyphs'>###########</text>
+<text x='232' y='157' fill='#93a6be' font-weight='normal' textLength='56' lengthAdjust='spacingAndGlyphs'>-------</text>
+<rect x='380' y='144' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='160' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='173' fill='#e6effa' font-weight='normal' textLength='80' lengthAdjust='spacingAndGlyphs'>Fractional</text>
+<rect x='144' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='152' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='160' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='168' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='176' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='184' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='192' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='200' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='208' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='216' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='224' y='160' width='8' height='16' fill='#65e0c8'/>
+<rect x='232' y='160' width='2' height='16' fill='#65e0c8'/>
+<rect x='380' y='160' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='176' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='189' fill='#e6effa' font-weight='normal' textLength='64' lengthAdjust='spacingAndGlyphs'>Gradient</text>
+<rect x='144' y='176' width='8' height='16' fill='#5adc9a'/>
+<rect x='152' y='176' width='8' height='16' fill='#63d79a'/>
+<rect x='160' y='176' width='8' height='16' fill='#6cd29a'/>
+<rect x='168' y='176' width='8' height='16' fill='#76cd9a'/>
+<rect x='176' y='176' width='8' height='16' fill='#7fc89a'/>
+<rect x='184' y='176' width='8' height='16' fill='#89c39a'/>
+<rect x='192' y='176' width='8' height='16' fill='#92bf9a'/>
+<rect x='200' y='176' width='8' height='16' fill='#9bba9a'/>
+<rect x='208' y='176' width='8' height='16' fill='#a5b59a'/>
+<rect x='216' y='176' width='8' height='16' fill='#aeb09a'/>
+<rect x='224' y='176' width='8' height='16' fill='#b8ab9a'/>
+<rect x='232' y='176' width='2' height='16' fill='#c1a69a'/>
+<rect x='380' y='176' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='192' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='205' fill='#e6effa' font-weight='normal' textLength='40' lengthAdjust='spacingAndGlyphs'>62.5%</text>
+<rect x='380' y='192' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='208' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='221' fill='#e6effa' font-weight='normal' textLength='160' lengthAdjust='spacingAndGlyphs'>[x] Animate examples</text>
+<rect x='380' y='208' width='1' height='16' fill='#e6effa'/>
+<path transform='translate(0 224)' d='M4.5 0V5Q4.5 8.5 8 8.5' stroke='#e6effa' fill='none'/>
+<rect x='8' y='232' width='368' height='1' fill='#e6effa'/>
+<path transform='translate(376 224)' d='M0 8.5Q4.5 8.5 4.5 5V0' stroke='#e6effa' fill='none'/>
+</g></svg>

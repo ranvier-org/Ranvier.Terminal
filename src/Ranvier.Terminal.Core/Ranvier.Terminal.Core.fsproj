@@ -3,6 +3,9 @@
     <Compile Include="Cells.fs" />
     <Compile Include="Frame.fs" />
     <Compile Include="Output.fs" />
+    <Compile Include="Prepared.fs" />
+    <Compile Include="OutputBuffer.fs" />
     <Compile Include="Input.fs" />
+    <Compile Include="TerminalKeys.fs" />
   </ItemGroup>
 </Project>

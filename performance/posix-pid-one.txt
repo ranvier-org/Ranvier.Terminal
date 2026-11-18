@@ -1,0 +1,1 @@
+PASS POSIX PID-one ownership rejection

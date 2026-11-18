@@ -85,22 +85,41 @@ let run report =
                     | Key key when key.Scalar = int 'a' && not key.Released -> ()
                     | _ -> failwith "Native key decoding mismatch."
 
+                for virtualKey, expected in [| 37, Key.Left; 38, Key.Up; 39, Key.Right; 40, Key.Down; 18, Key.Alt |] do
+                    for released in [| false; true |] do
+                        Marshal.WriteInt32(record, 4, if released then 0 else 1)
+                        Marshal.WriteInt16(record, 8, 64s)
+                        Marshal.WriteInt16(record, 10, int16 virtualKey)
+                        Marshal.WriteInt16(record, 14, 0s)
+                        if not (WriteConsoleInputW(input, record, 1u, &written)) then
+                            failwith "Cannot inject native arrow event."
+                        events.Clear()
+                        session.Input.Poll events.Add
+                        if events.Count <> (if released then 1 else 64) then
+                            failwith "Native arrow repeat/release count mismatch."
+                        for event in events do
+                            match event with
+                            | Key key when key.Key = expected && key.Scalar = 0 && key.Released = released -> ()
+                            | _ -> failwith "Native arrow decoding mismatch."
+
                 Marshal.WriteInt16(record, 0, 2s)
                 Marshal.WriteInt16(record, 4, 3s)
-                Marshal.WriteInt16(record, 6, 2s)
-                Marshal.WriteInt32(record, 8, 1)
                 Marshal.WriteInt32(record, 12, 0)
-                Marshal.WriteInt32(record, 16, 0)
+                for y, buttons, flags, action in
+                    [ 2, 1, 0, MouseAction.Press
+                      7, 1, 1, MouseAction.Move
+                      7, 0, 0, MouseAction.Release ] do
+                    Marshal.WriteInt16(record, 6, int16 y)
+                    Marshal.WriteInt32(record, 8, buttons)
+                    Marshal.WriteInt32(record, 16, flags)
+                    if not (WriteConsoleInputW(input, record, 1u, &written)) then
+                        failwith "Cannot inject native mouse event."
 
-                if not (WriteConsoleInputW(input, record, 1u, &written)) then
-                    failwith "Cannot inject native mouse event."
-
-                events.Clear()
-                session.Input.Poll events.Add
-
-                match events[0] with
-                | Mouse mouse when mouse.X = 3 && mouse.Y = 2 && mouse.Action = MouseAction.Press -> ()
-                | _ -> failwith "Native mouse decoding mismatch."
+                    events.Clear()
+                    session.Input.Poll events.Add
+                    match events[0] with
+                    | Mouse mouse when mouse.X = 3 && mouse.Y = y && mouse.Action = action -> ()
+                    | _ -> failwithf "Native mouse decoding mismatch for %A." action
             finally
                 Marshal.FreeHGlobal record
 
@@ -170,7 +189,7 @@ let run report =
         File.WriteAllText(
             report,
             sprintf
-                "measured here: native Windows mode entry/restoration, injected key repeats and mouse input passed. Actual console diff/encode/write/flush/commit: 1000 changing frames, %d managed bytes.\n"
+                "measured here: native Windows mode entry/restoration, injected key repeats, all directional keys (repeat and release), and mouse input passed. Actual console diff/encode/write/flush/commit: 1000 changing frames, %d managed bytes.\n"
                 allocated
         )
 

@@ -1,0 +1,6 @@
+{
+  "name": "ranvier-terminal-rendering-diagram",
+  "private": true,
+  "type": "module",
+  "devDependencies": { "rolldown": "1.2.14" }
+}

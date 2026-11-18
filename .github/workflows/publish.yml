@@ -1,0 +1,55 @@
+name: Publish NuGet
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Verify run for this main commit
+        required: true
+permissions:
+  contents: read
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency: nuget-publish
+    permissions:
+      actions: read
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Verify artifact provenance
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run_id }}
+        run: |
+          [[ "$RUN_ID" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" | jq -e --arg sha "$GITHUB_SHA" '.path == ".github/workflows/ci.yml" and .event == "push" and .head_branch == "main" and .head_sha == $sha and .conclusion == "success"'
+          gh run download "$RUN_ID" -n nuget-packages -D packages
+          version=$(dotnet msbuild src/Ranvier.Terminal/Ranvier.Terminal.fsproj -getProperty:Version)
+          for id in Ranvier.Terminal{,.Core,.Css,.View,.Components}; do test -f "packages/$id.$version.nupkg"; done
+          test "$(find packages -name '*.nupkg' | wc -l)" -eq 5
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+      - uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ vars.NUGET_USER || 'shayan.habibi' }}
+      - name: Publish verified packages
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          for id in Ranvier.Terminal{.Core,.Css,.View,.Components,}; do
+            dotnet nuget push "packages/$id.$VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+          done
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            test "$(gh api "repos/$GITHUB_REPOSITORY/commits/v$VERSION" --jq .sha)" = "$GITHUB_SHA"
+          else
+            gh release create "v$VERSION" --target "$GITHUB_SHA" --title "Ranvier.Terminal $VERSION" --generate-notes packages/*.nupkg
+          fi

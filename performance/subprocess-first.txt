@@ -1,0 +1,6 @@
+PASS Redirected structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS Redirected input and native terminal/resize semantics
+System.Exception: Exit did not complete while draining
+   at SubprocessProbe.collect@58.MoveNext() in C:\wk\ranvier-release\Ranvier.Terminal\tools\SubprocessProbe\Program.fs:line 64
+   at SubprocessProbe.runMode@75.MoveNext() in C:\wk\ranvier-release\Ranvier.Terminal\tools\SubprocessProbe\Program.fs:line 123
+   at SubprocessProbe.main(String[] args) in C:\wk\ranvier-release\Ranvier.Terminal\tools\SubprocessProbe\Program.fs:line 165

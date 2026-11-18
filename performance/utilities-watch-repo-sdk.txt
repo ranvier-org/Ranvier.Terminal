@@ -1,0 +1,20 @@
+  Determining projects to restore...
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Core\Ranvier.Terminal.Core.fsproj (in 183 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Css\Ranvier.Terminal.Css.fsproj (in 183 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\examples\Utilities\Utilities.fsproj (in 186 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.View\Ranvier.Terminal.View.fsproj (in 186 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal\Ranvier.Terminal.fsproj (in 186 ms).
+  Restored C:\wk\ranvier-release\Ranvier\src\Ranvier\Ranvier.fsproj (in 229 ms).
+  Ranvier.Terminal.Core -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal.Core\release\Ranvier.Terminal.Core.dll
+  Ranvier.Terminal.Css -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal.Css\release\Ranvier.Terminal.Css.dll
+  Ranvier -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier\release_net10.0\Ranvier.dll
+  Ranvier.Terminal.View -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal.View\release\Ranvier.Terminal.View.dll
+  Ranvier.Terminal -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Ranvier.Terminal\release\Ranvier.Terminal.dll
+  Utilities -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\utility-watch\bin\Utilities\release\Utilities.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:29.37
+measured here: utilities headless verification passed (live output, subprocess input/exit, history, resize, hot reload and disposal).

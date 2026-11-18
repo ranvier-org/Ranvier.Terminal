@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../src/Ranvier.Terminal.Core/Ranvier.Terminal.Core.fsproj" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="../../src/Ranvier.Terminal/Native.fs" Link="Native.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+</Project>

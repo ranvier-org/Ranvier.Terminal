@@ -1,0 +1,50 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 160' width='384' height='160'>
+<title>Spinner frames from the component gallery</title>
+<g font-family='Consolas,DejaVu Sans Mono,monospace' font-size='13' xml:space='preserve'>
+<rect x='0' y='0' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='16' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='32' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='48' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='64' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='80' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='96' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='112' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='128' width='384' height='16' fill='#141d2c'/>
+<rect x='0' y='144' width='384' height='16' fill='#141d2c'/>
+<path transform='translate(0 0)' d='M4.5 16V12Q4.5 8.5 8 8.5' stroke='#e6effa' fill='none'/>
+<rect x='8' y='8' width='368' height='1' fill='#e6effa'/>
+<path transform='translate(376 0)' d='M0 8.5Q4.5 8.5 4.5 12V16' stroke='#e6effa' fill='none'/>
+<rect x='4' y='16' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='29' fill='#65e0c8' font-weight='bold' textLength='56' lengthAdjust='spacingAndGlyphs'>SPINNER</text>
+<rect x='380' y='16' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='32' width='1' height='16' fill='#e6effa'/>
+<rect x='21' y='33' width='2' height='2' fill='#e6effa'/>
+<rect x='21' y='37' width='2' height='2' fill='#e6effa'/>
+<rect x='21' y='41' width='2' height='2' fill='#e6effa'/>
+<text x='32' y='45' fill='#e6effa' font-weight='normal' textLength='56' lengthAdjust='spacingAndGlyphs'>Braille</text>
+<rect x='380' y='32' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='48' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='61' fill='#e6effa' font-weight='normal' textLength='96' lengthAdjust='spacingAndGlyphs'>\ ASCII line</text>
+<rect x='380' y='48' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='64' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='77' fill='#e6effa' font-weight='normal' textLength='88' lengthAdjust='spacingAndGlyphs'>▖ Quadrants</text>
+<rect x='380' y='64' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='80' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='93' fill='#e6effa' font-weight='normal' textLength='112' lengthAdjust='spacingAndGlyphs'>▇ Bouncing bar</text>
+<rect x='380' y='80' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='96' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='109' fill='#e6effa' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>·</text>
+<text x='24' y='109' fill='#e6effa' font-weight='normal' textLength='8' lengthAdjust='spacingAndGlyphs'>●</text>
+<text x='32' y='109' fill='#e6effa' font-weight='normal' textLength='64' lengthAdjust='spacingAndGlyphs'>· Points</text>
+<rect x='380' y='96' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='112' width='1' height='16' fill='#e6effa'/>
+<rect x='16' y='112' width='8' height='16' fill='#e6effa'/>
+<text x='32' y='125' fill='#e6effa' font-weight='normal' textLength='56' lengthAdjust='spacingAndGlyphs'>Shading</text>
+<rect x='380' y='112' width='1' height='16' fill='#e6effa'/>
+<rect x='4' y='128' width='1' height='16' fill='#e6effa'/>
+<text x='16' y='141' fill='#e6effa' font-weight='normal' textLength='56' lengthAdjust='spacingAndGlyphs'>🌔 Moon</text>
+<rect x='380' y='128' width='1' height='16' fill='#e6effa'/>
+<path transform='translate(0 144)' d='M4.5 0V5Q4.5 8.5 8 8.5' stroke='#e6effa' fill='none'/>
+<rect x='8' y='152' width='368' height='1' fill='#e6effa'/>
+<path transform='translate(376 144)' d='M0 8.5Q4.5 8.5 4.5 5V0' stroke='#e6effa' fill='none'/>
+</g></svg>

@@ -12,6 +12,7 @@ type Length =
 type Direction =
     | Row
     | Column
+    | Overlay
 
 type Alignment =
     | Start
@@ -25,6 +26,45 @@ type Border =
     | Double
     | Rounded
     | Ascii
+
+[<RequireQualifiedAccess>]
+type ScrollbarVisibility = Auto | Hidden
+
+[<RequireQualifiedAccess>]
+type ScrollbarThumbSize = Proportional | SingleCell
+
+module Scrollbar =
+    let tableTrackGlyph = "│"
+    let tableThumbGlyph = "█"
+
+    /// Thumb start and length within a track, in cells.
+    let thumbRange size length viewport maximum offset =
+        if length <= 0 then struct (0, 0)
+        else
+            let count =
+                match size with
+                | ScrollbarThumbSize.SingleCell -> 1
+                | ScrollbarThumbSize.Proportional when maximum <= 0 -> length
+                | ScrollbarThumbSize.Proportional ->
+                    let viewport = int64 (max 0 viewport)
+                    max 1 (int (int64 length * viewport / (viewport + int64 maximum)))
+            let start =
+                if maximum <= 0 then 0
+                else int (int64 (length - count) * int64 (System.Math.Clamp(offset, 0, maximum)) / int64 maximum)
+            struct (start, count)
+
+type ScrollbarPart =
+    private { Text: string; Ink: Paint }
+    member part.Glyph = part.Text
+    member part.Paint = part.Ink
+
+module ScrollbarPart =
+    let create glyph paint =
+        if System.String.IsNullOrEmpty glyph then invalidArg "glyph" "Expected a single-cell grapheme."
+        let run = TextRun.prepare glyph
+        if run.Glyphs.Length <> 1 || run.Glyphs[0].Columns <> 1 || run.Glyphs[0].Text <> glyph then
+            invalidArg "glyph" "Expected a printable single-cell grapheme."
+        { Text = glyph; Ink = paint }
 
 [<Struct>]
 type Insets =
@@ -49,7 +89,12 @@ type Style =
       Gap: int
       Border: Border
       Paint: Paint
+      ScrollbarVisibility: ScrollbarVisibility
+      ScrollbarThumbSize: ScrollbarThumbSize
+      ScrollbarTrack: ScrollbarPart
+      ScrollbarThumb: ScrollbarPart
       Wrap: bool
+      WordWrap: bool
       Visible: bool }
 
 type Declaration =
@@ -69,7 +114,12 @@ type Declaration =
     | Foreground of Color
     | Background of Color
     | Attributes of Attributes
+    | ScrollbarVisibility of ScrollbarVisibility
+    | ScrollbarThumbSize of ScrollbarThumbSize
+    | ScrollbarTrack of ScrollbarPart
+    | ScrollbarThumb of ScrollbarPart
     | Wrap of bool
+    | WordWrap of bool
     | Visible of bool
 
 module Style =
@@ -94,7 +144,12 @@ module Style =
           Gap = 0
           Border = NoBorder
           Paint = Paint.empty
+          ScrollbarVisibility = ScrollbarVisibility.Auto
+          ScrollbarThumbSize = ScrollbarThumbSize.Proportional
+          ScrollbarTrack = ScrollbarPart.create "░" Paint.empty
+          ScrollbarThumb = ScrollbarPart.create "█" Paint.empty
           Wrap = false
+          WordWrap = true
           Visible = true }
 
     let apply value (style: Style) =
@@ -122,6 +177,11 @@ module Style =
             { style with
                 Paint = { style.Paint with Attributes = x } }
         | Wrap x -> { style with Wrap = x }
+        | ScrollbarVisibility x -> { style with ScrollbarVisibility = x }
+        | ScrollbarThumbSize x -> { style with ScrollbarThumbSize = x }
+        | ScrollbarTrack x -> { style with ScrollbarTrack = x }
+        | ScrollbarThumb x -> { style with ScrollbarThumb = x }
+        | WordWrap x -> { style with WordWrap = x }
         | Visible x -> { style with Visible = x }
 
     let create declarations =
@@ -166,7 +226,18 @@ module Css =
     let backgroundColor value = Background value
     let attributes value = Attributes value
     let wrap value = Wrap value
+    let wordWrap value = WordWrap value
     let visible value = Visible value
+    let scrollbarVisibility value = ScrollbarVisibility value
+    let scrollbarThumbSize value = ScrollbarThumbSize value
+    let scrollbarTrack glyph paint = ScrollbarTrack(ScrollbarPart.create glyph paint)
+    let scrollbarThumb glyph paint = ScrollbarThumb(ScrollbarPart.create glyph paint)
+
+    /// Use a table-style track and single-cell thumb on a scrollable viewport.
+    let tableScrollbar trackPaint thumbPaint =
+        [ scrollbarThumbSize ScrollbarThumbSize.SingleCell
+          scrollbarTrack Scrollbar.tableTrackGlyph trackPaint
+          scrollbarThumb Scrollbar.tableThumbGlyph thumbPaint ]
 
     let padding value =
         Padding

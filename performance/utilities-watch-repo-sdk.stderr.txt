@@ -1,0 +1,8 @@
+dotnet watch 🔥 Hot reload enabled. For a list of supported edits, see https://aka.ms/dotnet/hot-reload.
+dotnet watch 💡 Press Ctrl+R to restart.
+dotnet watch ⌚ Loading projects ...
+dotnet watch ⌚ Loaded 8 project(s) in 1.2s.
+dotnet watch ⚠ [Utilities (net10.0)] Project does not support Hot Reload: 'Optimize' property is 'True'. Application will be restarted when updated. Set 'Optimize' project property to 'False' to enable Hot Reload.
+dotnet watch ⌚ Waiting for changes
+dotnet watch ⌚ [Utilities (net10.0)] Exited
+dotnet watch ⏳ Waiting for a file to change before restarting ...

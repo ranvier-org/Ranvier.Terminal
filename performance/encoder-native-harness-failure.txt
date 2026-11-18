@@ -1,0 +1,17 @@
+erase-default row 0: expected [abc     ijkl] observed [abc     ijkl]
+erase-default row 1: expected [            ] observed [            刳]
+erase-default row 2: expected [            ] observed [            䮡]
+erase-default row 3: expected [            ] observed [            퐘]
+measured here: erase-default: independent model PASS; hidden Windows screen readback FAIL
+repeat-ascii row 0: expected [aaaaaaaaa   ] observed [aaaaaaaaa   ]
+repeat-ascii row 1: expected [            ] observed [            퐘]
+repeat-ascii row 2: expected [            ] observed [            퐘]
+repeat-ascii row 3: expected [            ] observed [            퐘]
+measured here: repeat-ascii: independent model PASS; hidden Windows screen readback FAIL
+scroll-region row 0: expected [AAAAAAAAAAAA] observed [AAAAAAAAAAAA`]
+scroll-region row 1: expected [CCCCCCCCCCCC] observed [CCCCCCCCCCCC퐘]
+scroll-region row 2: expected [            ] observed [            퐘]
+scroll-region row 3: expected [DDDDDDDDDDDD] observed [DDDDDDDDDDDD퐘]
+measured here: scroll-region: independent model PASS; hidden Windows screen readback FAIL
+measured here: blue-background ECH attribute equivalence: True
+native cursor positioning emitted; visibility/presentation latency not claimed from output completion

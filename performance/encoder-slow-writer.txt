@@ -1,0 +1,1 @@
+measured here: bounded synchronous slow writer PASS: held 120ms, one write outstanding, same buffer, no front commit before release; flush failure retained old front, full retry committed

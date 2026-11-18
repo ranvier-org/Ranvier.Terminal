@@ -1,0 +1,56 @@
+  Determining projects to restore...
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Css\Ranvier.Terminal.Css.fsproj (in 132 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tests\Ranvier.Terminal.Tests\Ranvier.Terminal.Tests.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tools\SubprocessProbe\SubprocessProbe.fsproj (in 132 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.Core\Ranvier.Terminal.Core.fsproj (in 132 ms).
+  Restored C:\wk\ranvier-release\Ranvier\src\Ranvier\Ranvier.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal.View\Ranvier.Terminal.View.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\examples\Utilities\Utilities.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tools\HostProbe\HostProbe.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tools\WidgetBench\WidgetBench.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tools\HostParserProbe\HostParserProbe.fsproj (in 132 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\src\Ranvier.Terminal\Ranvier.Terminal.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tools\PreparedBench\PreparedBench.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\examples\Dashboard\Dashboard.fsproj (in 133 ms).
+  Restored C:\wk\ranvier-release\Ranvier.Terminal\tools\PerfBench\PerfBench.fsproj (in 133 ms).
+  Ranvier -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier\release_net10.0\Ranvier.dll
+  Ranvier -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier\release_netstandard2.1\Ranvier.dll
+  Ranvier.Terminal.Core -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier.Terminal.Core\release\Ranvier.Terminal.Core.dll
+  Ranvier.Terminal.Css -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier.Terminal.Css\release\Ranvier.Terminal.Css.dll
+  Ranvier.Terminal.View -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier.Terminal.View\release\Ranvier.Terminal.View.dll
+  Ranvier.Terminal -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier.Terminal\release\Ranvier.Terminal.dll
+  Dashboard -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Dashboard\release\Dashboard.dll
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(264,13): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(271,70): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(273,51): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(275,49): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(280,45): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(280,68): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(282,15): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(284,57): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(290,22): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+  Utilities -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Utilities\release\Utilities.dll
+  Ranvier.Terminal.Tests -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\Ranvier.Terminal.Tests\release\Ranvier.Terminal.Tests.dll
+  HostParserProbe -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\HostParserProbe\release\HostParserProbe.dll
+  HostProbe -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\HostProbe\release\HostProbe.dll
+  PerfBench -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\PerfBench\release\PerfBench.dll
+  PreparedBench -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\PreparedBench\release\PreparedBench.dll
+  SubprocessProbe -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\SubprocessProbe\release\SubprocessProbe.dll
+  WidgetBench -> C:\wk\ranvier-release\Ranvier.Terminal\artifacts\showcase-utilities\bin\WidgetBench\release\WidgetBench.dll
+
+Build FAILED.
+
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(264,13): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(271,70): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(273,51): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(275,49): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(280,45): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(280,68): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(282,15): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(284,57): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Program.fs(290,22): error FS0046: The identifier 'process' is reserved for future use by F# [C:\wk\ranvier-release\Ranvier.Terminal\examples\Showcase\Showcase.fsproj]
+    0 Warning(s)
+    9 Error(s)
+
+Time Elapsed 00:00:38.65

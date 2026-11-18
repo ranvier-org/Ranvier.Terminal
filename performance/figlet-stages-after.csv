@@ -1,0 +1,4 @@
+stage,allocated_bytes_per_update
+compose-art,232.0
+prepare-existing-art,3136.0
+install-prepared-run-and-present,0.0

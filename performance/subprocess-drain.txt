@@ -1,0 +1,13 @@
+PASS Redirected structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS Redirected input and native terminal/resize semantics
+PASS Redirected bounded sustained output with draining
+PASS Redirected concurrent blocked input/output close without caller drain
+PASS Redirected cancellation cleanup without caller drain
+PASS Redirected nonexistent executable cleanup
+PASS WindowsPseudoConsole (240, 40) structured arguments, cwd/env, tagged output, exit code and repeated close
+PASS WindowsPseudoConsole (240, 40) input and native terminal/resize semantics
+PASS WindowsPseudoConsole (240, 40) bounded sustained output with draining
+PASS WindowsPseudoConsole (240, 40) concurrent blocked input/output close without caller drain
+PASS WindowsPseudoConsole (240, 40) cancellation cleanup without caller drain
+PASS WindowsPseudoConsole (240, 40) nonexistent executable cleanup
+PASS subprocess transport probe

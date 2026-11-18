@@ -1,0 +1,9 @@
+PASS owned setup observes the real Windows window at mount and resize; binding and cleanup run
+PASS graph burst ownership and second post after sleep, repeated keys, input beyond batch, resize, Escape, cancellation, cleanup
+PASS animation deadlines then suspend
+PASS legacy run and runReactive stay live
+PASS native Ctrl+C exits sleeping host without token cancellation
+PASS focused widget consumes native Ctrl+C and keeps host alive
+PASS build/tick exceptions and pre-cancelled cleanup
+PASS deadline validation/saturation; sleeping cancellation cleanup_ms=0.384
+PASS hidden native host probe

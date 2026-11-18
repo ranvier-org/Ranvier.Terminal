@@ -1,0 +1,16 @@
+workload,median_us,max_batch_us,allocated_bytes
+Baseline-ascii-sparse,32.298,39.074,0.000
+Baseline-ascii-dense,229.461,237.104,0.000
+Baseline-unicode-sparse,35.984,39.975,0.000
+Baseline-unicode-dense,278.437,287.233,0.000
+Baseline-prepare-unique,0.365,0.452,992.352
+Cached-ascii-sparse,43.178,56.696,0.000
+Cached-ascii-dense,227.389,241.157,0.000
+Cached-unicode-sparse,35.344,37.613,0.000
+Cached-unicode-dense,272.830,284.202,0.000
+Cached-prepare-unique,0.375,0.527,992.352
+Packed-ascii-sparse,27.712,29.636,0.000
+Packed-ascii-dense,277.278,288.253,0.000
+Packed-unicode-sparse,25.370,26.308,0.000
+Packed-unicode-dense,298.973,314.987,0.000
+Packed-prepare-unique,0.367,0.453,992.352

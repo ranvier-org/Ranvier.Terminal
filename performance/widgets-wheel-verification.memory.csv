@@ -1,0 +1,4 @@
+workload,retained_heap_bytes,setup_allocated_bytes
+materialized,24577160,47304088
+virtual-cached,20320152,41992128
+virtual-extent,145720,41781840

@@ -64,23 +64,39 @@ module Frame =
     let fill rect paint frame =
         let rect = Rect.intersect rect (bounds frame)
 
-        for y = rect.Y to rect.Y + rect.Height - 1 do
-            for x = rect.X to rect.X + rect.Width - 1 do
-                put rect x y " " 1 paint frame
+        if rect.Width > 0 then
+            let blank = Cell.blank paint
+            for y = rect.Y to rect.Y + rect.Height - 1 do
+                // Repair pairs crossing either edge before overwriting the interior in bulk.
+                erase rect.X y frame
+                if rect.Width > 1 then erase (rect.X + rect.Width - 1) y frame
+                Array.Fill(frame.Cells, blank, y * frame.Width + rect.X, rect.Width)
 
-    let text clip x y wrap (run: TextRun) paint frame =
-        let mutable column, row = x, y
-
-        for index = 0 to run.Glyphs.Length - 1 do
-            let glyph = run.Glyphs[index]
-
-            if glyph.Columns < 0 then
-                column <- x
-                row <- row + 1
-            else
-                if wrap && column > x && column + glyph.Columns > clip.X + clip.Width then
-                    column <- x
-                    row <- row + 1
-
-                put clip column row glyph.Text glyph.Columns paint frame
+    let textWithWrapping clip x y width wrap wordWrap (run: TextRun) paint frame =
+        let lines = TextRun.lines width wrap wordWrap run
+        let first = max 0 (clip.Y - y)
+        let last = min (lines.Count - 1) (clip.Y + clip.Height - y - 1)
+        for line = first to last do
+            let mutable column = x
+            let mutable index = lines.Starts[line]
+            let finish = lines.Ends[line]
+            if x < clip.X then
+                let origin = run.ColumnOffsets[index]
+                let target = origin + clip.X - x
+                let mutable low = index
+                let mutable high = finish
+                while low < high do
+                    let middle = low + (high - low) / 2
+                    if run.ColumnOffsets[middle + 1] <= target then low <- middle + 1
+                    else high <- middle
+                index <- low
+                column <- x + run.ColumnOffsets[index] - origin
+            while index < finish && column < clip.X + clip.Width do
+                let glyph = run.Glyphs[index]
+                if column + glyph.Columns > clip.X then
+                    put clip column (y + line) glyph.Text glyph.Columns paint frame
                 column <- column + glyph.Columns
+                index <- index + 1
+
+    let text clip x y wrap run paint frame =
+        textWithWrapping clip x y (clip.X + clip.Width - x) wrap true run paint frame

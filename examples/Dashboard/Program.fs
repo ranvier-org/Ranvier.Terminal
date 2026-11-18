@@ -10,16 +10,18 @@ open Ranvier.Terminal.View.Dsl
 
 [<EntryPoint>]
 let main args =
-    let mutable clock = Unchecked.defaultof<Signal<string>>
-    let mutable progress = Unchecked.defaultof<Signal<float>>
-    let mutable elapsed = 0.
-
-    let build () =
-        clock <- createSignal (DateTime.Now.ToString "HH:mm:ss")
-        progress <- createSignal 0.
+    let setup _ =
+        let clock = createSignal (DateTime.Now.ToString "HH:mm:ss")
+        let progress = createSignal 0.
+        let mutable elapsed = 0.
         let count = createSignal 0
         let name = createSignal "Ranvier"
         let enabled = createSignal true
+        let update (delta: TimeSpan) =
+            elapsed <- elapsed + delta.TotalSeconds
+            clock.Value <- DateTime.Now.ToString "HH:mm:ss"
+            progress.Value <- (sin elapsed + 1.) / 2.
+            Some Terminal.defaults.FrameInterval
 
         column (
             styles {
@@ -57,16 +59,11 @@ let main args =
             }
 
             "Only changed terminal cells are overwritten."
-        }
-
-    let tick (delta: TimeSpan) =
-        elapsed <- elapsed + delta.TotalSeconds
-        clock.Value <- DateTime.Now.ToString "HH:mm:ss"
-        progress.Value <- (sin elapsed + 1.) / 2.
+        }, update
 
     if Array.contains "--headless" args then
         use graph = new Graph()
-        let mounted = View.mount graph build
+        let mounted, update = View.mountWithState graph (fun () -> setup (fun () -> struct (100, 24)))
         let renderer = Renderer.create 100 24 400000 Terminal.defaults.Capabilities
         let mutable bytes = 0L
 
@@ -75,7 +72,7 @@ let main args =
               Flush = (fun () -> ()) }
 
         for _ = 1 to 120 do
-            graph.Run(fun () -> tick (TimeSpan.FromSeconds(1. / 60.)))
+            graph.Run(fun () -> update (TimeSpan.FromSeconds(1. / 60.)) |> ignore)
             Layout.render mounted renderer.Back
             Renderer.present output renderer
 
@@ -93,6 +90,6 @@ let main args =
                     { Terminal.defaults.Capabilities with
                         SynchronizedOutput = Array.contains "--sync" args } }
 
-        Terminal.run options stop.Token build tick
+        Terminal.runApp options stop.Token setup
 
     0

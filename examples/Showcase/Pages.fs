@@ -33,7 +33,12 @@ module Pages =
                   line "Unicode        Wide glyphs, accents, emoji and safe text."
                   line "Lifetimes      Mount/unmount branches and change collections."
                   line "Rendering      Measured diff output, allocations and modes."
-                  line "Input / scroll Key and mouse events, clipping and scrolling." ]
+                  line "Input / scroll Key and mouse events, clipping and scrolling."
+                  line "Streaming      Live output, Unicode, progress and history."
+                  line "Subprocess     Interactive child terminal, input and resize."
+                  line "Instruments    Select a simulated channel and watch its trace."
+                  line "Tasks          Follow and sort a simulated build pipeline."
+                  line "Components     Browse live widgets and compare built-in styles." ]
 
             note
                 "GPU rendering belongs to your terminal emulator. This app uses the same native F# framebuffer and terminal output path on every page."
@@ -41,6 +46,25 @@ module Pages =
 
     let controls (model: Model) =
         let doubled = createMemo (fun _ -> model.Count.Value * 2)
+        let reset = button "reset" " Reset " (fun () -> model.Count.Value <- 0)
+        let popupStyle = [ Css.backgroundColor bright; Css.color background ]
+        let tip = PopupWidgets.tooltip popupStyle "Set the counter back to zero" reset |> id "reset-tip"
+        let planets = [| "Mercury"; "Venus"; "Earth"; "Mars"; "Jupiter"; "Saturn"; "Uranus"; "Neptune" |]
+        let matchingPlanets (query: string) =
+            planets |> Array.filter (fun name -> name.StartsWith(query, StringComparison.OrdinalIgnoreCase))
+        let planetInput, suggestions =
+            PopupWidgets.completion
+                [ Css.height (Css.cells 1); Css.backgroundColor background ]
+                (Css.width (Css.cells 12) :: popupStyle)
+                model.Planet matchingPlanets 4
+        let pickerStyle = [ Css.height (Css.cells 1); Css.backgroundColor background ]
+        let optionsStyle = Css.width (Css.cells 22) :: popupStyle
+        let destination, destinations =
+            Select.single pickerStyle optionsStyle "Choose destination" 3
+                (createSignal [| "orbit", "Orbit"; "moon", "Moon"; "mars", "Mars" |]) model.Destination
+        let payload, payloads =
+            Select.multiple pickerStyle optionsStyle "Choose payloads" 3
+                (createSignal [| "camera", "Camera"; "radar", "Radar"; "radio", "Radio" |]) model.Payloads
 
         column [ Css.gap 1 ] {
             title "Controls + reactive bindings"
@@ -50,9 +74,20 @@ module Pages =
                 [ row [ Css.gap 2 ] {
                       button "decrement" " − Decrement " (fun () -> model.Count.Value <- model.Count.Value - 1)
                       button "increment" " + Increment " (fun () -> model.Count.Value <- model.Count.Value + 1)
-                      button "reset" " Reset " (fun () -> model.Count.Value <- 0)
+                      reset
                   }
-                  text (fun () -> sprintf "Count: %d    Memo (count × two): %d" model.Count.Value doubled.Value) ]
+                  text (fun () -> sprintf "Count: %d    Memo (count × two): %d" model.Count.Value doubled.Value)
+                  line "Hover over Reset for help, or focus it and hold Alt." ]
+
+            card
+                "PLANET COMPLETION"
+                [ note "Focus the field and type a planet prefix. Use Up or Down to browse, Enter to choose, or Esc to close."
+                  planetInput |> id "planet-input" ]
+
+            card "MISSION LOADOUT"
+                [ line "Destination"; destination |> id "mission-destination"
+                  line "Payloads"; payload |> id "mission-payloads"
+                  note "Choose a destination and check the payloads to carry. Esc closes the menu." ]
 
             card
                 "TEXT INPUT"
@@ -75,18 +110,20 @@ module Pages =
                       "Selected: "
                       + [| "Signals"; "Memos"; "Effects"; "Owners" |][model.Selected.Value]) ]
         }
+        |> fun content -> Popup.host content [| tip; suggestions |> id "planet-matches"; destinations; payloads |]
+        |> styled [ Css.height (Css.flex 1) ]
 
     let layout (model: Model) =
         let box (caption: string) declarations =
             panel (Css.border Single :: Css.paddingXY 1 0 :: declarations) { caption }
 
         let spacing =
-            row [] {
+            row [ Css.height (Css.cells 3) ] {
                 box "fixed" [ Css.width (Css.cells 12) ]
                 box "flex" [ Css.width (Css.flex 1) ]
                 box "double flex" [ Css.width (Css.flex 2) ]
             }
-            |> bindStyle (fun () -> [ Css.direction Row; Css.gap model.Gap.Value; Css.height (Css.cells 3) ])
+            |> bindStyle (fun () -> [ Css.gap model.Gap.Value ])
 
         column [ Css.gap 1 ] {
             title "Layout laboratory"
@@ -120,6 +157,14 @@ module Pages =
                   }
                   column [ Css.align Center ] { "centered child" }
                   column [ Css.align End ] { "right-aligned child" } ]
+
+            card "WORD WRAPPING" [
+                note "Word-aware wrapping is the default. Long words fall back to grapheme breaks."
+                Dsl.label "Default: keep these words together when the line fills."
+                |> bindStyle (fun () -> [ Css.width (Css.cells 24); Css.wrap true ])
+                Dsl.label "Opt-out: keep these words together when the line fills."
+                |> bindStyle (fun () -> [ Css.width (Css.cells 24); Css.wrap true; Css.wordWrap false ])
+            ]
 
             panel [ Css.border Double; Css.padding 1; Css.margin 1 ] {
                 "Padding inside; margin outside."
@@ -253,10 +298,11 @@ module Pages =
                         model.Items.Value <- items[.. items.Length - 2])
             }
 
-            each (fun () -> model.Items.Value) (fun value -> line ("  • " + value))
+            eachKeyed (fun name -> name) (fun () -> model.Items.Value) (fun read -> line ("  • " + read ()))
+            |> id "lifetime-rows"
 
             note
-                "The array example uses Dsl.each: it rebuilds owned children on changes. It does not claim keyed reconciliation."
+                "Each row owns its scope. Adding or removing a row preserves the other rows and their bindings."
         }
 
     let rendering (model: Model) =
@@ -299,10 +345,12 @@ module Pages =
 
     let input (model: Model) =
         let scroller =
-            panel [ Css.height (Css.cells 9); Css.border Single; Css.paddingXY 1 0 ] {
-                for i = 1 to 40 do
-                    line (sprintf "Log row %02d  |  retained content clipped to this viewport" i)
-            }
+            each (fun () -> [| 1 .. model.LogRows.Value |])
+                (fun i -> line (sprintf "Log row %02d  |  event received" i))
+            |> bindStyle (fun () ->
+                [ Css.height (Css.cells model.LogHeight.Value); Css.border Single; Css.paddingXY 1 0
+                  Css.scrollbarTrack "░" { Paint.empty with Foreground = muted; Background = surface }
+                  Css.scrollbarThumb "█" { Paint.empty with Foreground = accent; Background = surface } ])
             |> id "scroll-region"
             |> focusable
 
@@ -312,21 +360,38 @@ module Pages =
                 match key.Key with
                 | Key.Down ->
                     scroller.ScrollY <- min scroller.MaxScrollY (scroller.ScrollY + 1)
+                    Node.invalidate scroller
                     true
                 | Key.Up ->
                     scroller.ScrollY <- max 0 (scroller.ScrollY - 1)
+                    Node.invalidate scroller
                     true
                 | Key.PageDown ->
-                    scroller.ScrollY <- min scroller.MaxScrollY (scroller.ScrollY + 6)
+                    scroller.ScrollY <- min scroller.MaxScrollY (scroller.ScrollY + scroller.Content.Height)
+                    Node.invalidate scroller
                     true
                 | Key.PageUp ->
-                    scroller.ScrollY <- max 0 (scroller.ScrollY - 6)
+                    scroller.ScrollY <- max 0 (scroller.ScrollY - scroller.Content.Height)
+                    Node.invalidate scroller
                     true
                 | _ -> false
             | _ -> false
 
         column [ Css.gap 1 ] {
             title "Input, focus, mouse + scrolling"
+
+            row [ Css.gap 1 ] {
+                button "log-remove" " − Rows " (fun () -> model.LogRows.Value <- max 4 (model.LogRows.Peek - 4))
+                button "log-add" " + Rows " (fun () -> model.LogRows.Value <- min 120 (model.LogRows.Peek + 4))
+                text (fun () -> sprintf "%d log rows" model.LogRows.Value)
+            }
+            row [ Css.gap 1 ] {
+                button "log-shorter" " Shorter " (fun () -> model.LogHeight.Value <- max 5 (model.LogHeight.Peek - 2))
+                button "log-taller" " Taller " (fun () -> model.LogHeight.Value <- min 19 (model.LogHeight.Peek + 2))
+                text (fun () -> sprintf "Viewport %d rows high" model.LogHeight.Value)
+            }
+            note "Drag the bright thumb or click the track to jump. Use the wheel, or focus the log and press an arrow or Page Up / Down."
+            scroller
 
             card
                 "LAST EVENT"
@@ -337,11 +402,149 @@ module Pages =
             Widgets.input [ Css.height (Css.cells 1); Css.backgroundColor surface ] model.Name
             |> id "event-input"
 
-            note "Wheel over the region below, or Tab to it and use arrows / Page Up / Page Down."
-            scroller
-
             note
                 "Windows uses native console input records. Unix uses the bounded UTF-8 / escape-sequence parser, including bracketed paste. Windows console input does not preserve clipboard-paste boundaries."
 
             signalText model.Viewport
+            NavigationGallery.build ()
         }
+
+    let instruments (model: Model) =
+        let channels = [| 1 .. 128 |]
+        let frequency channel = 0.25 * float channel
+        let columns: TableColumn<int> array =
+            [| { Header = "Channel"; Width = Css.flex 1; Text = sprintf "CH-%03d"
+                 Style = fun _ _ -> [ Css.color bright ] }
+               { Header = "Frequency"; Width = Css.cells 14; Text = fun channel -> sprintf "%.2f Hz" (frequency channel)
+                 Style = fun _ _ -> [ Css.color accent ] } |]
+        let table =
+            Table.create [ Css.width (Css.cells 42) ] [ Css.color muted ] [ Css.attributes Attributes.Reverse ]
+                [ Css.color accent ] (fun selected first -> model.InstrumentPosition.Value <- struct (selected, first))
+        let struct (selected, first) = model.InstrumentPosition.Peek
+        Table.update columns 5 channels selected first table |> ignore
+        let selectedChannel () =
+            let struct (selected, _) = model.InstrumentPosition.Value
+            channels[selected]
+        let samples =
+            createMemo (fun _ ->
+                let elapsed = model.Elapsed.Value
+                let rate = frequency (selectedChannel ())
+                Array.init 76 (fun index ->
+                    let time = elapsed - float (75 - index) / 100.
+                    50. + 45. * sin (2. * Math.PI * rate * time)))
+        let level () = Array.last samples.Value / 100.
+        let trace =
+            column [] {
+                Styled.brailleChart [] 38 3 accent false (fun () -> samples.Value)
+                Styled.meter [] 38 accent muted level
+            }
+        column [ Css.gap 1 ] {
+            title "Signal instruments"
+            Styled.panel [] 42 6 muted
+                [ (2, accent, fun () -> sprintf "┤ CH-%03d ├" (selectedChannel ())) ]
+                [ (2, bright, fun () -> sprintf "┤ %.0f%% ├" (level () * 100.)) ] trace
+            Widgets.checkbox [] "Run simulation" model.Animate |> id "instrument-run"
+            table.Root |> id "instrument-table"
+            note "Select a simulated channel with the arrow keys or mouse. The trace and level meter follow the selected frequency."
+        }
+
+    type private TaskRow = { Step: int; Name: string; State: TaskStatus.State }
+
+    let tasks (model: Model) =
+        let stages = [| "Discover sources"; "Compile modules"; "Run tests"; "Package output" |]
+        let duration = 5.
+        let runtime = duration * float stages.Length
+        let restart () =
+            model.TaskStop.Value <- None
+            model.TaskStart.Value <- Some model.Elapsed.Peek
+        if model.TaskStart.Peek.IsNone then restart ()
+
+        let elapsed () =
+            match model.TaskStop.Value with
+            | Some (elapsed, _) -> elapsed
+            | None -> min runtime (model.Elapsed.Value - model.TaskStart.Value.Value)
+        let stop state =
+            let time = elapsed ()
+            if model.TaskStop.Peek.IsNone && time < runtime then
+                model.TaskStop.Value <- Some (time, state)
+        let stepTime = createMemo (fun _ -> int (elapsed () * 4.))
+        let rows =
+            createMemo (fun _ ->
+                let stopped = model.TaskStop.Value
+                let time = float stepTime.Value / 4.
+                stages |> Array.mapi (fun step name ->
+                    let age = time - float step * duration
+                    let state =
+                        if age >= duration then TaskStatus.Success
+                        elif age < 0. then
+                            if stopped.IsSome then TaskStatus.Cancelled else TaskStatus.Queued
+                        else
+                            match stopped with
+                            | Some (_, state) -> state
+                            | None when step = 0 -> TaskStatus.Spinner
+                            | None when step = 2 -> TaskStatus.Pulse
+                            | None -> TaskStatus.Determinate (age / duration)
+                    { Step = step + 1; Name = name; State = state }))
+
+        let statusText = function
+            | TaskStatus.Queued -> "Queued"
+            | TaskStatus.Spinner | TaskStatus.Pulse -> "Running"
+            | TaskStatus.Determinate part -> sprintf "%d%%" (int (100. * part))
+            | TaskStatus.Success -> "Done"
+            | TaskStatus.Failure -> "Failed"
+            | TaskStatus.Cancelled -> "Cancelled"
+        let statusStyle state =
+            [ Css.color (match state with
+                         | TaskStatus.Queued | TaskStatus.Cancelled -> muted
+                         | TaskStatus.Failure -> Css.rgb 255 140 125
+                         | TaskStatus.Success -> accent
+                         | _ -> bright) ]
+        let columns: TableColumn<TaskRow> array =
+            [| { Header = "Step"; Width = Css.cells 8; Text = fun row -> string row.Step
+                 Style = fun _ _ -> [ Css.color muted ] }
+               { Header = "Task"; Width = Css.flex 1; Text = _.Name; Style = fun _ _ -> [] }
+               { Header = "Status"; Width = Css.cells 12; Text = fun row -> statusText row.State
+                 Style = fun _ row -> statusStyle row.State } |]
+        let sort =
+            Table.sortable (fun (row: TaskRow) -> row.Step)
+                [| { Id = "step"; Compare = (fun a b -> compare a.Step b.Step); Descending = false }
+                   { Id = "task"; Compare = (fun a b -> String.CompareOrdinal(a.Name, b.Name)); Descending = false } |] "step"
+        let selectedStep = createSignal (Some 1)
+        let headings = [| Some "step"; Some "task"; None |]
+        let table =
+            Table.create [] [ Css.color muted ] [ Css.attributes Attributes.Reverse ] [ Css.color accent ]
+            |> Table.bindSortable columns headings [ Css.color accent ] stages.Length (fun () -> rows.Value) selectedStep sort
+        let selectedRow () = rows.Value[(defaultArg selectedStep.Value 1) - 1]
+        let running () = model.TaskStop.Value.IsNone && stepTime.Value < int (runtime * 4.)
+        let commands: Commands.Command array =
+            [| { Key = Key.Character; Scalar = int 'b'; Modifiers = Modifiers.Alt; Shortcut = "Alt+B"
+                 Caption = "Restart build"; Enabled = (fun () -> true); Invoke = restart }
+               { Key = Key.Character; Scalar = int 'f'; Modifiers = Modifiers.Alt; Shortcut = "Alt+F"
+                 Caption = "Fail current step"; Enabled = running; Invoke = fun () -> stop TaskStatus.Failure }
+               { Key = Key.Character; Scalar = int 'x'; Modifiers = Modifiers.Alt; Shortcut = "Alt+X"
+                 Caption = "Cancel build"; Enabled = running; Invoke = fun () -> stop TaskStatus.Cancelled } |]
+        let query, choices =
+            Commands.palette [ Css.height (Css.cells 1); Css.backgroundColor surface ]
+                [ Css.width (Css.cells 28); Css.backgroundColor bright; Css.color background ] 3 commands
+        let expanded = createSignal false
+        column [ Css.gap 1 ] {
+            Figlet.banner [ Css.color accent ] Figlet.compact
+                (fun () -> max 0 (model.Columns.Value - sidebarWidth - pageGap - 2 * sidePadding))
+                (fun () -> "Tasks")
+            |> id "task-banner"
+            table.Root |> id "task-table"
+            card "SELECTED TASK"
+                [ text (fun () -> (selectedRow ()).Name) |> id "task-name"
+                  TaskStatus.create [] statusStyle 12 (fun () -> int (model.Elapsed.Value * 8.))
+                      (fun () -> (selectedRow ()).State) |> id "task-status" ]
+            note "The build is simulated. Select a task to inspect its progress. Click Step or Task to sort, or focus the table and use S to switch columns and R to reverse."
+            card "BUILD COMMANDS"
+                [ line "Type to find a command, then press Enter."
+                  query |> id "task-command"
+                  Widgets.checkbox [] "Expand shortcut help" expanded
+                  Commands.help [] commands (fun () -> expanded.Value) ]
+        }
+        |> fun content ->
+            let root = Popup.host content [| choices |] |> styled [ Css.height (Css.flex 1) ]
+            root.OnEvent <- Commands.dispatch commands
+            root
