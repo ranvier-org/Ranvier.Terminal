@@ -90,8 +90,6 @@ module private SubprocessNative =
     [<DllImport("kernel32.dll")>]
     extern int ResizePseudoConsole(nativeint console, Coord size)
     [<DllImport("kernel32.dll")>]
-    extern int ReleasePseudoConsole(nativeint console)
-    [<DllImport("kernel32.dll")>]
     extern void ClosePseudoConsole(nativeint console)
     [<DllImport("kernel32.dll", SetLastError = true)>]
     extern bool InitializeProcThreadAttributeList(nativeint attributes, int count, int flags, unativeint& size)
@@ -155,11 +153,11 @@ module private SubprocessNative =
                 let mutable startup = Unchecked.defaultof<StartupEx>
                 let mutable basic = Unchecked.defaultof<Startup>
                 basic.Size <- uint32 (Marshal.SizeOf<StartupEx>())
+                // Null standard handles request fresh console handles even when this host is redirected.
+                basic.Flags <- 0x100u
                 startup.Startup <- basic
                 startup.Attributes <- attributes
                 check (CreateProcessW(null, command, 0n, 0n, false, 0x00080400u, environment, Option.toObj options.WorkingDirectory, &startup, &info))
-                let autoExit = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 26100)
-                if autoExit then hresult (ReleasePseudoConsole console)
                 let child = Process.GetProcessById(int info.Id)
                 ownedChild <- child
                 child.SafeHandle |> ignore
@@ -189,7 +187,7 @@ module private SubprocessNative =
                 ownedInput <- null
                 ownedOutput <- null
                 ownedChild <- null
-                child, (input :> Stream), [| TerminalOutput, (output :> Stream) |], resize, closeConsole, autoExit
+                child, (input :> Stream), [| TerminalOutput, (output :> Stream) |], resize, closeConsole
             with _ ->
                 if info.Process <> 0n then TerminateProcess(info.Process, 1u) |> ignore
                 // No reader exists on a failed startup: close this end before closing ConPTY.
@@ -227,7 +225,7 @@ module Subprocess =
           Dispose: unit -> unit
           CancelReads: bool }
 
-    let private streams cancelReads (child: Process, input: Stream, outputs: (SubprocessOutputKind * Stream) array, resize, closeConsole, autoExit) =
+    let private streams cancelReads (child: Process, input: Stream, outputs: (SubprocessOutputKind * Stream) array, resize, closeConsole) =
         { Outputs = outputs |> Array.map (fun (kind, stream) -> kind, (fun bytes token -> stream.ReadAsync(bytes.AsMemory(), token).AsTask()), stream.Dispose)
           Write = fun bytes token -> task {
               do! input.WriteAsync(bytes.AsMemory(), token).AsTask()
@@ -239,10 +237,8 @@ module Subprocess =
           Terminate = fun () ->
               try if not child.HasExited then child.Kill(true)
               with :? InvalidOperationException -> ()
-              if autoExit then closeConsole ()
-          CloseConsole = if autoExit then ignore else closeConsole
+          CloseConsole = closeConsole
           Dispose = fun () ->
-              if autoExit then closeConsole ()
               input.Dispose()
               for _, stream in outputs do stream.Dispose()
               child.Dispose()
@@ -272,7 +268,7 @@ module Subprocess =
             if not (child.Start()) then invalidOp "The subprocess did not start."
             child, child.StandardInput.BaseStream,
             [| StandardOutput, child.StandardOutput.BaseStream; StandardError, child.StandardError.BaseStream |],
-            (fun _ _ -> invalidOp "Resize requires a pseudoterminal mode."), ignore, false
+            (fun _ _ -> invalidOp "Resize requires a pseudoterminal mode."), ignore
         with _ -> child.Dispose(); reraise ()
 
     /// Output uses bounded backpressure. Drain while awaiting Exit; Close/cancellation discard
