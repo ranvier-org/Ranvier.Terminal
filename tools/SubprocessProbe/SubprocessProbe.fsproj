@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
   <ItemGroup>
-    <Compile Include="../../src/Ranvier.Terminal/PosixPty.fs" Link="PosixPty.fs" />
-    <Compile Include="../../src/Ranvier.Terminal/Subprocess.fs" Link="Subprocess.fs" />
+    <ProjectReference Include="../../src/Ranvier.Terminal/Ranvier.Terminal.fsproj" />
     <Compile Include="PosixChecks.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
