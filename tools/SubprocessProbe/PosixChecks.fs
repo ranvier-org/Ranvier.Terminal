@@ -161,7 +161,7 @@ let verifyDeniedSignal () = task {
 
 let run log = task {
     // Initialize the runtime's managed child reaper before creating the native-spawn child.
-    use managed = Process.Start(ProcessStartInfo("/bin/true", UseShellExecute=false))
+    use managed = Process.Start(ProcessStartInfo("true", UseShellExecute=false))
     do! managed.WaitForExitAsync()
     let identity=Subprocess.start (config ["posix-identity"]) CancellationToken.None
     let output=StringBuilder()
