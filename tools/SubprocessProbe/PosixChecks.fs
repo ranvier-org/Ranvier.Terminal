@@ -31,6 +31,11 @@ extern int setresuid(int real, int effective, int saved)
 
 let private require condition message = if not condition then failwith message
 
+let writePidFile path =
+    let pending = path + ".pending"
+    File.WriteAllText(pending, string Environment.ProcessId)
+    File.Move(pending, path)
+
 let verifyIgnoredSignal () =
     let number = if OperatingSystem.IsMacOS() then 20 else 17
     let previous = signal(number, 1n)
@@ -79,7 +84,7 @@ let tryChild (args: string array) =
         Some 0
     | "posix-descendant" ->
         use hup = PosixSignalRegistration.Create(PosixSignal.SIGHUP, fun context -> context.Cancel <- true)
-        File.WriteAllText(args[1], string Environment.ProcessId)
+        writePidFile args[1]
         Thread.Sleep Timeout.Infinite
         Some 0
     | "posix-orphan" ->

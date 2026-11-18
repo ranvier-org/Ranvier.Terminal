@@ -41,7 +41,7 @@ let private ordinaryChild (args: string[]) =
         use descendant = Process.Start start
         0
     | "linger" ->
-        File.WriteAllText(args[1], string Environment.ProcessId)
+        PosixChecks.writePidFile args[1]
         Thread.Sleep 30000
         0
     | "flood" ->

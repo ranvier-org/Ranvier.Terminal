@@ -2,9 +2,36 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
+#include <sys/sysctl.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+int ranvier_signal_group(int group) {
+    if (kill(-group, SIGKILL) == 0) return 0;
+    int error = errno;
+    if (error != EPERM) return error;
+
+    // Darwin reports EPERM when every member has exited. An unreaped leader
+    // reserves the group ID while the parent checks all members, including descendants.
+    int query[] = { CTL_KERN, KERN_PROC, KERN_PROC_PGRP, group };
+    size_t bytes = 0;
+    if (sysctl(query, 4, NULL, &bytes, NULL, 0) < 0) return errno;
+    if (!bytes) return 0;
+    struct kinfo_proc *members = malloc(bytes);
+    if (!members) return ENOMEM;
+    if (sysctl(query, 4, members, &bytes, NULL, 0) == -1) {
+        error = errno;
+    } else {
+        error = 0;
+        for (size_t i = 0; i < bytes / sizeof(*members); i++) {
+            if (members[i].kp_proc.p_stat != SZOMB) { error = EPERM; break; }
+        }
+    }
+    free(members);
+    return error;
+}
 
 // The managed parent retains the nonblocking master and the wait/reap policy.
 // Only this native child runs between fork and exec.
