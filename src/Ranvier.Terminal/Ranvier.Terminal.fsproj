@@ -1,4 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <DarwinPtyLibrary Condition="'$(DarwinPtyLibrary)' == ''">$(MSBuildProjectDirectory)/obj/native/$(Configuration)/libranvier_terminal_pty.dylib</DarwinPtyLibrary>
+  </PropertyGroup>
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) Or Exists('$(DarwinPtyLibrary)')">
+    <None Include="$(DarwinPtyLibrary)" Link="libranvier_terminal_pty.dylib" CopyToOutputDirectory="PreserveNewest"
+          Pack="true" PackagePath="runtimes/osx-x64/native/" />
+  </ItemGroup>
+  <Target Name="BuildDarwinPty" BeforeTargets="PrepareForBuild" Condition="$([MSBuild]::IsOSPlatform('OSX'))"
+          Inputs="$(MSBuildProjectDirectory)/native/darwin_pty.c" Outputs="$(DarwinPtyLibrary)">
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(DarwinPtyLibrary)'))" />
+    <Exec Command="xcrun clang -dynamiclib -arch x86_64 -mmacosx-version-min=12.0 -O2 -Wall -Wextra -Werror -install_name @rpath/libranvier_terminal_pty.dylib &quot;$(MSBuildProjectDirectory)/native/darwin_pty.c&quot; -o &quot;$(DarwinPtyLibrary)&quot;" />
+  </Target>
+  <Target Name="RequireDarwinPtyForPack" BeforeTargets="GenerateNuspec">
+    <Error Condition="!Exists('$(DarwinPtyLibrary)')" Text="Pack on macOS or supply the Intel macOS build via DarwinPtyLibrary." />
+  </Target>
   <ItemGroup><ProjectReference Include="../Ranvier.Terminal.View/Ranvier.Terminal.View.fsproj" /></ItemGroup>
   <ItemGroup><Compile Include="Native.fs" /><Compile Include="Terminal.fs" /><Compile Include="PosixPty.fs" /><Compile Include="Subprocess.fs" /><Compile Include="SubprocessOutput.fs" /></ItemGroup>
 </Project>

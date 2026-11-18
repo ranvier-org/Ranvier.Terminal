@@ -55,12 +55,12 @@ jobs:
           dotnet examples/Showcase/bin/Release/net10.0/Showcase.dll --verify
           dotnet examples/Utilities/bin/Release/net10.0/Utilities.dll --verify
       - name: Pack libraries and run standalone consumer
-        if: runner.os == 'Linux'
+        if: matrix.os == 'macos-15-intel'
         working-directory: Ranvier.Terminal
         shell: pwsh
         run: ./scripts/pack.ps1
       - uses: actions/upload-artifact@v4
-        if: runner.os == 'Linux'
+        if: matrix.os == 'macos-15-intel'
         with:
           name: nuget-packages
           path: Ranvier.Terminal/artifacts/packages/*.nupkg

@@ -24,7 +24,15 @@ try {
     Set-Content "$consumer/Program.fs" 'open Ranvier.Terminal
 open Ranvier.Terminal.Components
 let frame = Frame.create 8 2
-if frame.Width <> 8 || (Spinner.frames Spinner.Line).Length = 0 then failwith "Package consumer failed"'
+if frame.Width <> 8 || (Spinner.frames Spinner.Line).Length = 0 then failwith "Package consumer failed"
+if System.OperatingSystem.IsMacOS() && System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture = System.Runtime.InteropServices.Architecture.X64 then
+    let options = { Subprocess.command "/bin/sh" ["-c"; "printf NATIVE_PTY >/dev/tty"] with Mode = PosixPseudoTerminal(80,24) }
+    let session = Subprocess.start options System.Threading.CancellationToken.None
+    try
+        if not (session.Exit.Wait(10000)) || session.Exit.Result <> 0 then failwith "Packaged Darwin PTY failed"
+        let bytes = session.Drain 4096 |> Array.collect (fun chunk -> chunk.Bytes)
+        if not ((System.Text.Encoding.UTF8.GetString bytes).Contains "NATIVE_PTY") then failwith "Missing packaged PTY output"
+    finally session.Close().GetAwaiter().GetResult()'
     $escapedFeed = [System.Security.SecurityElement]::Escape($feed)
     $config = "<configuration><packageSources><clear/><add key='release' value='$escapedFeed'/><add key='nuget' value='https://api.nuget.org/v3/index.json'/></packageSources><packageSourceMapping><packageSource key='release'><package pattern='Ranvier.Terminal*'/></packageSource><packageSource key='nuget'><package pattern='*'/></packageSource></packageSourceMapping></configuration>"
     Set-Content "$consumer/NuGet.Config" $config

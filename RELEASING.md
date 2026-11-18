@@ -1,12 +1,12 @@
 # Publishing Ranvier.Terminal
 
 Set the shared version in `Directory.Build.props`. The release includes the host,
-Core, Css, View and Components packages. For a local rehearsal, run
+Core, Css, View and Components packages. For a local rehearsal, use macOS with Xcode command line tools and run
 `pwsh -File scripts/pack.ps1`. It packs the libraries and runs a standalone F#
 consumer against the local feed with a fresh package cache.
 
 Push the reviewed release commit to `main` and wait for **Verify** to finish.
-Its Linux job uploads the tested packages as `nuget-packages`. The matrix checks
+Its Intel macOS job uploads the tested packages as `nuget-packages`. The matrix checks
 the terminal host and supported subprocess transports. The documentation deploys
 to GitHub Pages after its own strict link and site build passes.
 

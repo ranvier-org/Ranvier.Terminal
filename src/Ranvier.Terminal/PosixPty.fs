@@ -57,6 +57,8 @@ module internal PosixPty =
     extern int pollMac(nativeint descriptors, uint32 count, int timeout)
     [<DllImport("libc", SetLastError = true)>]
     extern int ioctl(int descriptor, unativeint request, WindowSize& size)
+    [<DllImport("ranvier_terminal_pty")>]
+    extern int ranvier_spawn_pty(int& pid, int master, int slave, [<MarshalAs(UnmanagedType.LPUTF8Str)>] string directory, [<MarshalAs(UnmanagedType.LPUTF8Str)>] string executable, nativeint arguments, nativeint environment)
     [<DllImport("libc")>]
     extern int posix_spawnattr_init(nativeint attributes)
     [<DllImport("libc")>]
@@ -199,28 +201,31 @@ module internal PosixPty =
                 slaveGuard <- openSlave(slave, 2 ||| noControlling ||| closeOnExec)
                 check slaveGuard
                 check (ioctl(master, windowRequest, &dimensions))
-                spawnCheck (posix_spawnattr_init attributes)
-                attributesReady <- true
-                spawnCheck (posix_spawn_file_actions_init actions)
-                actionsReady <- true
-                check (sigfillset signals)
-                check (sigdelset(signals, 9))
-                check (sigdelset(signals, if mac then 17 else 19))
-                spawnCheck (posix_spawnattr_setsigdefault(attributes, signals))
-                check (sigemptyset signals)
-                spawnCheck (posix_spawnattr_setsigmask(attributes, signals))
-                spawnCheck (posix_spawnattr_setflags(attributes, int16 ((if mac then 0x0400 else 0x80) ||| 0x0C)))
-                spawnCheck (posix_spawn_file_actions_addclose(actions, master))
-                spawnCheck (posix_spawn_file_actions_addclose(actions, slaveGuard))
-                spawnCheck (posix_spawn_file_actions_addchdir_np(actions, directory))
-                // Opening after SETSID without O_NOCTTY establishes the child's controlling terminal.
-                spawnCheck (posix_spawn_file_actions_addopen(actions, 0, slave, 2, 0u))
-                spawnCheck (posix_spawn_file_actions_adddup2(actions, 0, 1))
-                spawnCheck (posix_spawn_file_actions_adddup2(actions, 0, 2))
                 argv <- vector (Array.ofList (fileName :: arguments))
                 envp <- vector (variables |> Seq.map (fun pair -> pair.Key + "=" + pair.Value) |> Seq.toArray)
                 let mutable spawnedPid = 0
-                spawnCheck (posix_spawn(&spawnedPid, executable, actions, attributes, argv, envp))
+                if mac then
+                    spawnCheck (ranvier_spawn_pty(&spawnedPid, master, slaveGuard, directory, executable, argv, envp))
+                else
+                    spawnCheck (posix_spawnattr_init attributes)
+                    attributesReady <- true
+                    spawnCheck (posix_spawn_file_actions_init actions)
+                    actionsReady <- true
+                    check (sigfillset signals)
+                    check (sigdelset(signals, 9))
+                    check (sigdelset(signals, 19))
+                    spawnCheck (posix_spawnattr_setsigdefault(attributes, signals))
+                    check (sigemptyset signals)
+                    spawnCheck (posix_spawnattr_setsigmask(attributes, signals))
+                    spawnCheck (posix_spawnattr_setflags(attributes, int16 (0x80 ||| 0x0C)))
+                    spawnCheck (posix_spawn_file_actions_addclose(actions, master))
+                    spawnCheck (posix_spawn_file_actions_addclose(actions, slaveGuard))
+                    spawnCheck (posix_spawn_file_actions_addchdir_np(actions, directory))
+                    // Opening after SETSID without O_NOCTTY establishes the child's controlling terminal.
+                    spawnCheck (posix_spawn_file_actions_addopen(actions, 0, slave, 2, 0u))
+                    spawnCheck (posix_spawn_file_actions_adddup2(actions, 0, 1))
+                    spawnCheck (posix_spawn_file_actions_adddup2(actions, 0, 2))
+                    spawnCheck (posix_spawn(&spawnedPid, executable, actions, attributes, argv, envp))
                 pid <- spawnedPid
                 close slaveGuard |> ignore
                 slaveGuard <- -1
