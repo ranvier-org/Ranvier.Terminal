@@ -14,8 +14,7 @@ project also declares Fable.Core and build-time tooling. “Dependency-free” h
 third-party runtime beyond those required by Ranvier and F#.
 
 This is an initial implementation with executable correctness and allocation gates. Windows native
-execution has been verified locally. Linux and macOS host implementations are present, but native
-execution on those platforms has not been verified in this environment. See [VERIFICATION.md](VERIFICATION.md).
+execution has been verified locally. GitHub Actions also exercises native terminal sessions on Linux and macOS. See [VERIFICATION.md](VERIFICATION.md).
 
 ## Projects
 
@@ -274,7 +273,7 @@ agreement with every emulator.
 Streaming output frames and subprocess sessions are described in [UTILITIES.md](UTILITIES.md).
 Native POSIX subprocess terminals use a controlling terminal and an owned initial process group.
 **From documentation:** `src/Ranvier.Terminal/PosixPty.fs` accepts Linux glibc >= 2.29 on x64/arm64
-and macOS x64; macOS is source-reviewed pending native CI. macOS ARM64 is explicitly rejected
+and macOS x64. The host package includes its Intel macOS PTY launcher. macOS ARM64 is explicitly rejected
 until its variadic-call ABI bridge is verified. Redirected mode remains available. See the guide
 for exclusive child-reaping requirements, container init usage, cancellation and cleanup boundaries;
 these platform guards do not establish a completed native verification gate.

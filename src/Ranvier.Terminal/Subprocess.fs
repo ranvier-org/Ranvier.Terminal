@@ -372,7 +372,7 @@ module Subprocess =
                     // A failed reader cannot service ConPTY shutdown; close its pipe before teardown.
                     closeReader ()
                     kill ()
-                    return raise error
+                    System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw error
             }))
         for pump in pumps do
             pump.ContinueWith((fun (finished: Task<unit>) -> if finished.IsFaulted then finished.Exception |> ignore), TaskScheduler.Default) |> ignore
@@ -399,8 +399,9 @@ module Subprocess =
             cleanup backend.Dispose
             cleanup ioCancellation.Dispose
             match failure with
-            | Some error -> return raise error
-            | None -> return code
+            | Some error -> System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw error
+            | None -> ()
+            return code
         })
         let registration = cancellation.Register(Action kill)
         completion.ContinueWith((fun (_: Task<int>) ->

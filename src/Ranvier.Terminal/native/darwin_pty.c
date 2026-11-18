@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int ranvier_signal_group(int group) {
+int ranvier_signal_group(int group, int *denied_pid) {
     if (kill(-group, SIGKILL) == 0) return 0;
     int error = errno;
     if (error != EPERM) return error;
@@ -26,7 +26,12 @@ int ranvier_signal_group(int group) {
     } else {
         error = 0;
         for (size_t i = 0; i < bytes / sizeof(*members); i++) {
-            if (members[i].kp_proc.p_stat != SZOMB) { error = EPERM; break; }
+            const struct extern_proc *proc = &members[i].kp_proc;
+            if (proc->p_stat == SZOMB || (proc->p_flag & P_WEXIT)) continue;
+            if (proc->p_pid == group && kill(group, SIGKILL) == 0) continue;
+            *denied_pid = proc->p_pid;
+            error = EPERM;
+            break;
         }
     }
     free(members);

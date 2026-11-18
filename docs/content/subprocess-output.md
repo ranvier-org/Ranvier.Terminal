@@ -40,6 +40,8 @@ let startChild executable arguments width height cancellation =
     Subprocess.start options cancellation
 ```
 
+Intel macOS uses the native launcher included in the host package. On Apple Silicon the capability probe returns `None` for the subprocess PTY; redirected I/O and the interactive terminal host remain available.
+
 The fallback is appropriate when the child also supports pipes. An application requiring a controlling terminal can handle `None` before launch. Keep independent decoders for redirected stdout and stderr. A pseudoterminal produces one combined stream. Feed its bytes to the buffer and return any `OutputBuffer.drainResponses` bytes to the child so terminal queries receive an answer.
 
 ## Connect readiness to the host

@@ -47,8 +47,7 @@ For an application that can use either transport, select
 `Subprocess.tryPseudoTerminal width height |> Option.defaultValue Redirected`.
 This probes the local platform and ABI before starting a child.
 **From documentation:** the platform guards in `src/Ranvier.Terminal/PosixPty.fs` accept Linux
-with glibc >= 2.29 on x64/arm64 and macOS x64. The macOS backend is source-reviewed and awaits native
-CI. macOS ARM64 explicitly rejects PTY startup because its native variadic-call ABI bridge is
+with glibc >= 2.29 on x64/arm64 and macOS x64. The host NuGet package includes the Intel macOS native launcher. It establishes a controlling terminal before executing the requested child. macOS ARM64 explicitly rejects PTY startup because its native variadic-call ABI bridge is
 unverified; musl Linux and other architectures are also unsupported. These are implementation
 boundaries, not a claim that the final native verification gate has passed. Redirected mode remains
 available without PTY semantics.

@@ -98,7 +98,7 @@ module internal PosixPty =
     [<DllImport("libc", SetLastError = true)>]
     extern int kill(int pid, int signal)
     [<DllImport("ranvier_terminal_pty")>]
-    extern int ranvier_signal_group(int group)
+    extern int ranvier_signal_group(int group, int& deniedPid)
     [<DllImport("libc")>]
     extern int getpid()
     [<DllImport("libc", SetLastError = true)>]
@@ -255,7 +255,12 @@ module internal PosixPty =
                 let mutable disposed = false
                 let mutable active = 0
                 let signalGroup () =
-                    if mac then ranvier_signal_group childId
+                    if mac then
+                        let mutable deniedPid = 0
+                        let error = ranvier_signal_group(childId, &deniedPid)
+                        if error <> 0 && error <> 3 && deniedPid <> 0 then
+                            raise (Win32Exception(error, sprintf "Cannot terminate process %d in PTY group %d." deniedPid childId))
+                        error
                     elif kill(-childId, 9) = 0 then 0
                     else errno ()
                 let terminate () =
