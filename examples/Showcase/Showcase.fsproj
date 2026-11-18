@@ -2,6 +2,7 @@
   <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/Ranvier.Terminal/Ranvier.Terminal.fsproj" /></ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Ranvier.Elmish" Version="0.2.0" />
     <ProjectReference Include="../../src/Ranvier.Terminal.Components/Ranvier.Terminal.Components.fsproj" />
     <Compile Include="../Utilities/Model.fs" Link="UtilityModel.fs" />
     <Compile Include="Model.fs" />
@@ -9,6 +10,7 @@
     <Compile Include="NavigationGallery.fs" />
     <Compile Include="Pages.fs" />
     <Compile Include="Components.fs" />
+    <Compile Include="ElmishPage.fs" />
     <Compile Include="Kit.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

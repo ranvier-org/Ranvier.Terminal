@@ -61,4 +61,20 @@ Supply a fresh array to update `crew.Value`. Removing a key releases that row's 
 
 Give a label `Css.wrap true` to wrap at whitespace. A word wider than the available space breaks at a grapheme boundary. Add `Css.wordWrap false` when a long token should break at any grapheme from the beginning. Explicit newlines are preserved.
 
+## Drive a view from an Elmish model
+
+Open **Elmish** in the Showcase and choose **Increment**, then **Undo last increment**.
+The page creates its model with `Mvu.create initial update` from the optional `Ranvier.Elmish` package.
+Its update function returns a new record containing the count and the previous count.
+The view subscribes to a projection of that model and the buttons dispatch messages.
+
+```fsharp
+let caption = app.Select (fun model -> sprintf "Count: %d" model.Count)
+
+column {
+    row { from (fun () -> caption) }
+    button (button.onClick (fun () _ -> app.Dispatch Increment)) { "Increment" }
+}
+```
+
 [Build a tab strip or a selection popup](navigation.md)

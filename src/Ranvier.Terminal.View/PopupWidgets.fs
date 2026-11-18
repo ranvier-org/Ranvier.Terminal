@@ -1,6 +1,7 @@
 namespace Ranvier.Terminal.View
 
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 
@@ -109,17 +110,17 @@ module PopupWidgets =
         let edit = editor.OnEvent
         editor.OnEvent <- function
             | Key key when not key.Released && not key.Paste && key.Modifiers = Modifiers.None ->
-                match key.Key with
-                | Key.Up | Key.Down when opened ->
-                    selected <- max 0 (min (matches.Length - 1) (selected + (if key.Key = Key.Up then -1 else 1)))
+                match key.LogicalKey with
+                | LogicalKey.Navigation ArrowUp | LogicalKey.Navigation ArrowDown when opened ->
+                    selected <- max 0 (min (matches.Length - 1) (selected + (if key.LogicalKey = LogicalKey.Navigation ArrowUp then -1 else 1)))
                     renderRows ()
                     true
-                | Key.Down ->
+                | LogicalKey.Navigation ArrowDown ->
                     if dismissed.Peek.IsSome then dismissed.Value <- None
                     else refresh value.Peek
                     opened
-                | Key.Enter when opened -> commit selected; true
-                | Key.Escape when opened -> dismiss (); true
+                | LogicalKey.Whitespace Enter when opened -> commit selected; true
+                | LogicalKey.Ui Escape when opened -> dismiss (); true
                 | _ -> edit (Key key)
             | Focus false as event -> dismiss (); edit event
             | event -> edit event

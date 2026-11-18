@@ -24,6 +24,7 @@ the model. Type changes may restart the process. Use `-NoWatch` for the Release 
 
 | Page | Features to try |
 | --- | --- |
+| Elmish | Increment the counter, then undo the last increment. The buttons dispatch messages to a page-local immutable model. See [ElmishPage.fs](ElmishPage.fs) for the update function and reactive count binding. |
 | Components | Compare spinner and pulse animations under Task status and progress. Open Meters for line, block, segmented, dotted, ASCII, fractional and gradient fills at the same value. Tables has plain and sortable examples. Popups pairs a hover tooltip with a caret-anchored completion field. |
 | Overview | Live clock, signal updates, progress animation and pause |
 | Controls | Hover over Reset, or focus it and hold Alt on terminals that report modifier press and release. Type a planet name and choose a completion. Under Mission loadout, choose a destination and check multiple payloads. Escape dismisses the list. |

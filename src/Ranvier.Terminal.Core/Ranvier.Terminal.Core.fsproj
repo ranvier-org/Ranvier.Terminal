@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <PackageReference Include="Ranvier.Keyboard" Version="0.1.0" />
     <Compile Include="Cells.fs" />
     <Compile Include="Frame.fs" />
     <Compile Include="Output.fs" />

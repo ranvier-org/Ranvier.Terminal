@@ -104,6 +104,10 @@ module Model =
         System.Threading.Tasks.Task.WhenAll(model.Closings).GetAwaiter().GetResult()
 
 module Theme =
+    let altLetter (letter: char) =
+        Ranvier.Keyboard.KeyChord.ofLogical (Ranvier.Keyboard.Character (System.Text.Rune letter))
+            { Ranvier.Keyboard.KeyModifiers.None with Alt = true }
+
     let sidebarWidth = 23
     let pageGap = 2
     let sidePadding = 1

@@ -22,11 +22,10 @@ module TerminalKeys =
                 match key.Key with
                 | Key.Character when Rune.IsValid key.Scalar ->
                     let mutable scalar = key.Scalar
-                    if has Modifiers.Control && not key.Paste then
-                        if scalar >= int 'a' && scalar <= int 'z' then scalar <- scalar - int 'a' + 1
-                        elif scalar >= int '@' && scalar <= int '_' then scalar <- scalar - int '@'
-                        elif scalar = int ' ' then scalar <- 0
-                        elif scalar = int '?' then scalar <- 127
+                    if has Modifiers.Control && not key.Paste && scalar <= 127 then
+                        match Ranvier.Keyboard.C0Control.ofModifiedAscii (char scalar) with
+                        | ValueSome control -> scalar <- int (Ranvier.Keyboard.C0Control.toByte control)
+                        | ValueNone -> ()
                     alt (Char.ConvertFromUtf32 scalar)
                 | Key.Enter -> alt "\r"
                 | Key.Tab when has Modifiers.Shift && not key.Paste -> "\u001b[Z"

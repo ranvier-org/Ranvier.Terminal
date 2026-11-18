@@ -573,7 +573,7 @@ module View =
             | _ -> ()
 
             match event with
-            | Key key when key.Key = Key.Alt && not key.Paste ->
+            | Key key when key.LogicalKey = Ranvier.Keyboard.Modifier Ranvier.Keyboard.ModifierKey.Alt && not key.Paste ->
                 mounted.AltHeld <- not key.Released
                 mounted.Focused |> Option.iter (fun node -> node.OnAltHeld mounted.AltHeld)
                 false
@@ -585,7 +585,7 @@ module View =
                 match mounted.Focused with
                 | Some node -> bubble event node
                 | None -> mounted.Root.OnEvent event
-            | Key key when key.Key = Key.Tab && not key.Paste && not key.Released ->
+            | Key key when key.LogicalKey = Ranvier.Keyboard.Whitespace Ranvier.Keyboard.Tab && not key.Paste && not key.Released ->
                 let handled =
                     key.Modifiers &&& Modifiers.Control = Modifiers.None
                     && (match mounted.Focused with Some node -> bubble event node | None -> false)

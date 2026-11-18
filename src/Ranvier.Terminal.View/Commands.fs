@@ -2,6 +2,7 @@ namespace Ranvier.Terminal.View
 
 open System
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 
 module Commands =
@@ -14,6 +15,27 @@ module Commands =
           Enabled: unit -> bool
           Invoke: unit -> unit }
 
+    type Binding =
+        { Chord: KeyChord
+          Shortcut: string
+          Caption: string
+          Enabled: unit -> bool
+          Invoke: unit -> unit }
+
+    let private binding (command: Command) =
+        let key = { Key = command.Key; Scalar = command.Scalar; Modifiers = command.Modifiers; Released = false; Paste = false }
+        { Chord = key.Chord; Shortcut = command.Shortcut; Caption = command.Caption
+          Enabled = command.Enabled; Invoke = command.Invoke }
+
+    let dispatchBindings (commands: Binding array) = function
+        | Key key when not key.Released && not key.Paste ->
+            let chord = key.Chord
+            let matching command = chord = command.Chord && command.Enabled()
+            match Array.tryFind matching commands with
+            | Some command -> command.Invoke(); true
+            | None -> false
+        | _ -> false
+
     let dispatch (commands: Command array) = function
         | Key key when not key.Released && not key.Paste ->
             let matching command =
@@ -24,9 +46,9 @@ module Commands =
             | None -> false
         | _ -> false
 
-    let private label command = command.Shortcut + " " + command.Caption
+    let private label (command: Binding) = command.Shortcut + " " + command.Caption
 
-    let help declarations commands expanded =
+    let bindingHelp declarations commands expanded =
         let node = Node.create declarations [||]
         createEffect (fun () ->
             commands |> Array.filter (fun command -> command.Enabled())
@@ -35,7 +57,7 @@ module Commands =
         node
 
     /// A searchable command editor and its anchored results. Selection leaves the editor ready for another query.
-    let palette editorStyle popupStyle maxRows commands =
+    let bindingPalette editorStyle popupStyle maxRows (commands: Binding array) =
         let query = createSignal ""
         let available =
             commands |> Array.map (fun command -> command, createMemo (fun _ -> command.Enabled()))
@@ -49,3 +71,6 @@ module Commands =
             if command.Enabled() then command.Invoke()
             ""
         PopupWidgets.choices editorStyle popupStyle query suggest (fun a b -> obj.ReferenceEquals(a, b)) label accept maxRows
+
+    let help declarations commands expanded = bindingHelp declarations (Array.map binding commands) expanded
+    let palette editorStyle popupStyle maxRows commands = bindingPalette editorStyle popupStyle maxRows (Array.map binding commands)

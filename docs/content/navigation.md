@@ -61,3 +61,11 @@ With focus on the anchor, press Enter to open the picker. Use the arrow keys to 
 | A task spinner, pulse or styled meter | `Spinner.create`, `Pulse.create` or `Meter.create` from the optional `Ranvier.Terminal.Components` project |
 
 The Showcase **Components** page lets you compare indicators driven by the same clock or progress value. Its **Tasks** page combines a sortable table, a command palette and a task indicator.
+
+## Recognize a shortcut
+
+For a `Key` input event, match `key.LogicalKey` for navigation or use `key.Chord` to include modifiers.
+Both use Ranvier.Keyboard types. Assign a `KeyChord` to `Commands.Binding.Chord` and use
+`Commands.dispatchBindings` as the event handler. The binding's `Shortcut` string controls
+the label in `Commands.bindingHelp` and `Commands.bindingPalette`. Dispatch ignores releases
+and pasted input. The Showcase **Components** page uses the same bindings for all three.

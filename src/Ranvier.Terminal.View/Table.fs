@@ -2,6 +2,7 @@ namespace Ranvier.Terminal.View
 
 open System
 open Ranvier
+open Ranvier.Keyboard
 open Ranvier.Terminal
 open Ranvier.Terminal.Css
 
@@ -275,13 +276,13 @@ module Table =
         else
             match event with
             | Key key when not key.Paste && not key.Released && key.Modifiers = Modifiers.None ->
-                match key.Key with
-                | Key.Home -> move table 0 table.First
-                | Key.End -> move table last table.First
-                | Key.Up -> move table (table.Selected - 1) table.First
-                | Key.Down -> move table (table.Selected + 1) table.First
-                | Key.PageUp -> move table (table.Selected - capacity) table.First
-                | Key.PageDown -> move table (table.Selected + min capacity (last - table.Selected)) table.First
+                match key.LogicalKey with
+                | LogicalKey.Navigation Home -> move table 0 table.First
+                | LogicalKey.Navigation NavigationKey.End -> move table last table.First
+                | LogicalKey.Navigation ArrowUp -> move table (table.Selected - 1) table.First
+                | LogicalKey.Navigation ArrowDown -> move table (table.Selected + 1) table.First
+                | LogicalKey.Navigation PageUp -> move table (table.Selected - capacity) table.First
+                | LogicalKey.Navigation PageDown -> move table (table.Selected + min capacity (last - table.Selected)) table.First
                 | _ -> false
             | Mouse mouse when Rect.contains mouse.X mouse.Y table.Root.Clip ->
                 let bounds = table.Slots[0].Row.Bounds

@@ -47,6 +47,29 @@ test "reactive output frame" OutputViewChecks.run
 test "styled panel, meter and chart" StyledChecks.run
 test "styled virtual table" TableChecks.run
 
+test "terminal decoder supplies typed shortcut chords" (fun () ->
+    let events = ResizeArray<InputEvent>()
+    let parser = InputParser.create events.Add
+    for b in Encoding.UTF8.GetBytes "\u001b[1;3C🙂" do InputParser.feed b parser
+    let altRight =
+        Ranvier.Keyboard.KeyChord.ofLogical (Ranvier.Keyboard.Navigation Ranvier.Keyboard.ArrowRight)
+            { Ranvier.Keyboard.KeyModifiers.None with Alt = true }
+    let mutable invoked = 0
+    let bindings: Commands.Binding array =
+        [| { Chord = altRight; Shortcut = "Move"; Caption = "Right"; Enabled = fun () -> true
+             Invoke = fun () -> invoked <- invoked + 1 } |]
+    let dispatch = Commands.dispatchBindings bindings
+    match Seq.toList events with
+    | [Key right; Key emoji] ->
+        equal altRight right.Chord "modified arrow"
+        equal (Ranvier.Keyboard.KeyChord.ofRune (Rune 0x1F642)) emoji.Chord "supplementary scalar"
+        check (dispatch (Key right)) "typed chord dispatched independently of label"
+        let flagged paste released (event: KeyEvent) = Key { event with Paste = paste; Released = released }
+        check (not (dispatch (flagged true false right))) "paste ignored"
+        check (not (dispatch (flagged false true right))) "release ignored"
+        equal 1 invoked "invocation count"
+    | other -> failwithf "unexpected decoded input %A" other)
+
 test "shortcut, help and palette share command availability" (fun () ->
     use graph = new Graph()
     let enabled = graph.Run(fun () -> createSignal true)
