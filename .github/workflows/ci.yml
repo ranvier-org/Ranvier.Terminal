@@ -27,10 +27,6 @@ jobs:
           DOTNET_TieredCompilation: '0'
         working-directory: Ranvier.Terminal
         run: dotnet tests/Ranvier.Terminal.Tests/bin/Release/net10.0/Ranvier.Terminal.Tests.dll
-      - name: Documentation site
-        if: runner.os == 'Linux'
-        working-directory: Ranvier.Terminal
-        run: dotnet run --project docs/docs.fsproj -c Release -- build --strict
       - name: Live headless dashboard
         working-directory: Ranvier.Terminal
         run: dotnet examples/Dashboard/bin/Release/net10.0/Dashboard.dll --headless
@@ -69,12 +65,21 @@ jobs:
           name: nuget-packages
           path: Ranvier.Terminal/artifacts/packages/*.nupkg
           if-no-files-found: error
-      - uses: actions/upload-pages-artifact@v3
-        if: runner.os == 'Linux' && github.event_name == 'push'
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
         with:
-          path: Ranvier.Terminal/docs/output
+          dotnet-version: '10.0.x'
+      - name: Build and validate documentation
+        run: dotnet run --project docs/docs.fsproj -c Release -- build --strict
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name == 'push'
+        with:
+          path: docs/output
   docs:
-    needs: verify
+    needs: site
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
