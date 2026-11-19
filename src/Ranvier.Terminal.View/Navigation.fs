@@ -21,8 +21,12 @@ module Navigation =
     let private keyPress key =
         not key.Paste && not key.Released && key.Modifiers = Modifiers.None
 
-    let private activation (key: KeyEvent) =
-        key.LogicalKey = LogicalKey.Whitespace Enter || key.LogicalKey = LogicalKey.Whitespace Space
+    let private enter = chord { key (Whitespace Enter) }
+    let private space = chord { key (Whitespace Space) }
+
+    let private activation (event: KeyEvent) =
+        let pressed = event.Chord
+        pressed = enter || pressed = space
 
     let private rowStyle = [ Height(Cells 1) ]
     let private selectedStyle = [ Height(Cells 1); Css.attributes Attributes.Reverse ]
