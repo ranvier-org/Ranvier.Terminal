@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "title": "Terminal UI",
+  "description": "Retained reactive terminal user interfaces, cell diffing, CSS layout, and PTY subprocess views for native F#.",
+  "index": "index.md",
+  "unlisted": ["index.md"],
+  "styles": [
+    "docs/theme/terminal-showcase.css",
+    "docs/static/architecture.css"
+  ],
+  "scripts": [
+    { "src": "showcase-frames.js", "defer": true },
+    { "src": "showcase.js", "defer": true },
+    { "src": "architecture.js", "defer": true }
+  ],
+  "sections": [
+    {
+      "title": "Guides",
+      "items": [
+        "getting-started.md",
+        "composing-views.md",
+        "navigation.md",
+        "subprocess-output.md",
+        "architecture.md"
+      ]
+    },
+    {
+      "title": "Components",
+      "items": [
+        "gallery.md"
+      ]
+    }
+  ]
+}
