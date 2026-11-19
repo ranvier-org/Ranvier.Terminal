@@ -1,0 +1,295 @@
+[data-section="terminal"] {
+  --sans: var(--rv-font-display);
+  --mono: var(--nacara-font-mono);
+  --accent: var(--rv-accent-text);
+  --paper: var(--rv-on-accent);
+  --ink: var(--nacara-text);
+  --muted: var(--nacara-text-muted);
+  --line: var(--nacara-border);
+}
+
+[data-section="terminal"].nacara-layout--splash,
+[data-section="terminal"] .nacara-layout--splash {
+  --nacara-splash-width: 82rem;
+}
+
+[data-section="terminal"] #architecture-flow .flow-stage:not(.selected) rect {
+  fill: var(--nacara-bg-subtle);
+  stroke: var(--rv-border-strong, var(--nacara-border));
+}
+
+[data-section="terminal"] #architecture-flow .flow-stage:not(.selected) text {
+  fill: var(--nacara-text);
+}
+
+[data-section="terminal"] .terminal-home {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 4rem) 4rem;
+}
+
+[data-section="terminal"] .terminal-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.83fr) minmax(0, 1.17fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(2.5rem, 6vw, 6rem) 0;
+}
+
+[data-section="terminal"] .hero-copy h1 {
+  font-family: var(--sans);
+  font-size: clamp(3.4rem, 5.5vw, 6.4rem);
+  letter-spacing: -0.065em;
+  line-height: 0.99;
+  font-weight: 680;
+  margin: 0;
+}
+
+[data-section="terminal"] .hero-copy h1 em {
+  display: block;
+  font-family: Georgia, serif;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: -0.065em;
+}
+
+[data-section="terminal"] .hero-copy > p {
+  max-width: 35ch;
+  margin: 1.4rem 0 1.7rem;
+  line-height: 1.55;
+  font-size: clamp(1.05rem, 1.45vw, 1.25rem);
+  color: var(--muted);
+}
+
+[data-section="terminal"] .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.4rem;
+}
+
+[data-section="terminal"] .terminal-home .terminal-action {
+  background: var(--accent);
+  color: var(--paper);
+  padding: 0.78rem 1.15rem;
+  border-radius: 0.35rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+[data-section="terminal"] .terminal-action span {
+  margin-left: 0.45rem;
+}
+
+[data-section="terminal"] .terminal-home .terminal-link {
+  color: var(--ink);
+  font-weight: 600;
+  text-underline-offset: 0.24em;
+}
+
+[data-section="terminal"] .terminal-window {
+  margin: 0;
+  background: #242424;
+  color: #e0d1ad;
+  overflow: hidden;
+  border-radius: 0.65rem;
+  border: 1px solid #33433d;
+  box-shadow: 0 12px 28px #0d302518;
+}
+
+[data-section="terminal"] .window-title,
+[data-section="terminal"] .terminal-window figcaption {
+  padding: 0.65rem 0.95rem;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: #d6ded2;
+  background: #24332e;
+}
+
+[data-section="terminal"] .window-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+[data-section="terminal"] .window-title span:last-child {
+  color: #acc3b5;
+}
+
+[data-section="terminal"] .showcase-fallback {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+[data-section="terminal"] #showcase-live:has(.native-screen) + .showcase-fallback {
+  display: none;
+}
+
+[data-section="terminal"] .terminal-window figcaption a,
+[data-section="terminal"] .nacara-content .terminal-window figcaption a {
+  color: #c7e2da;
+}
+
+[data-section="terminal"] #showcase-live {
+  container-type: inline-size;
+  background: #0c121d;
+}
+
+[data-section="terminal"] .native-screen {
+  position: relative;
+  margin: 0 auto;
+  width: 48ch;
+  max-width: 100%;
+  font-family: Consolas, "DejaVu Sans Mono", monospace;
+  font-size: min(3.28cqw, 1.35rem);
+  line-height: 1;
+  white-space: pre;
+  font-variant-ligatures: none;
+  font-synthesis: none;
+}
+
+[data-section="terminal"] .native-row {
+  display: grid;
+  grid-template-columns: repeat(48, minmax(0, 1fr));
+  height: 1em;
+  white-space: pre;
+}
+
+[data-section="terminal"] .native-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+[data-section="terminal"] .native-checkbox {
+  position: absolute;
+  height: 1em;
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+[data-section="terminal"] .native-checkbox:focus-visible {
+  outline: 1px solid #65e0c8;
+  outline-offset: -1px;
+}
+
+[data-section="terminal"] .terminal-window figcaption {
+  border-top: 1px solid #394a41;
+  line-height: 1.4;
+}
+
+[data-section="terminal"] .home-guides {
+  border-top: 1px solid var(--line);
+  padding-top: 1.75rem;
+}
+
+[data-section="terminal"] .home-guides h2,
+[data-section="terminal"] .nacara-content .home-guides h2 {
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  margin: 0 0 1.15rem;
+  letter-spacing: -0.04em;
+  border-top: 0;
+  padding-top: 0;
+  background: none;
+}
+
+[data-section="terminal"] .guide-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+[data-section="terminal"] .guide-grid a,
+[data-section="terminal"] .nacara-content .guide-grid a {
+  display: block;
+  border: 1px solid var(--line);
+  padding: 1.2rem;
+  border-radius: 0.4rem;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--nacara-bg-subtle, transparent);
+}
+
+[data-section="terminal"] .guide-grid a:hover,
+[data-section="terminal"] .guide-grid a:focus-visible,
+[data-section="terminal"] .nacara-content .guide-grid a:hover,
+[data-section="terminal"] .nacara-content .guide-grid a:focus-visible {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+[data-section="terminal"] .guide-grid h3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+  font-size: 1.08rem;
+  margin: 0 0 0.6rem;
+}
+
+[data-section="terminal"] .guide-grid h3 span {
+  font-family: var(--mono);
+  color: var(--accent);
+}
+
+[data-section="terminal"] .guide-grid p {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+[data-section="terminal"] .preview-frame {
+  margin: 1rem 0;
+  background: #0c121d;
+  overflow: hidden;
+  border-radius: 0.45rem;
+}
+
+[data-section="terminal"] .preview-frame img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+[data-section="terminal"] .preview-frame figcaption {
+  margin: 0;
+  background: #1b2a33;
+  color: #d8e4e9;
+  font-size: 0.86rem;
+  padding: 0.65rem 1rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 56rem) {
+  [data-section="terminal"] .terminal-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  [data-section="terminal"] .hero-copy h1 em {
+    display: inline;
+  }
+
+  [data-section="terminal"] .hero-copy > p {
+    max-width: 55ch;
+  }
+
+  [data-section="terminal"] .guide-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 32rem) {
+  [data-section="terminal"] .guide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  [data-section="terminal"] .hero-copy h1 {
+    font-size: clamp(2.8rem, 13vw, 4.2rem);
+  }
+}
