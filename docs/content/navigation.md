@@ -69,3 +69,11 @@ Both use Ranvier.Keyboard types. Assign a `KeyChord` to `Commands.Binding.Chord`
 `Commands.dispatchBindings` as the event handler. The binding's `Shortcut` string controls
 the label in `Commands.bindingHelp` and `Commands.bindingPalette`. Dispatch ignores releases
 and pasted input. The Showcase **Components** page uses the same bindings for all three.
+
+```fsharp
+open Ranvier.Keyboard
+
+let jumpLeft = chord { ctrl; key (Navigation ArrowLeft) }
+```
+
+Assign `jumpLeft` to the binding's `Chord` field. Within one chord, modifiers can appear in any order.
