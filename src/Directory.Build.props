@@ -1,6 +1,7 @@
 <Project>
   <Import Project="../Directory.Build.props" />
   <PropertyGroup>
+    <PackageId>$(MSBuildProjectName)$(RanvierPackageSuffix)</PackageId>
     <Authors>Shayan Habibi</Authors>
     <Description>Native terminal rendering, layout and reactive controls for F# applications.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -11,6 +12,8 @@
     <PackageTags>fsharp;terminal;tui;reactive;ranvier</PackageTags>
   </PropertyGroup>
   <ItemGroup>
+    <AssemblyMetadata Include="RanvierLibrary" Value="true" />
+    <AssemblyMetadata Condition="'$(RanvierTrace)' == 'true'" Include="RanvierTrace" Value="true" />
     <None Include="$(MSBuildThisFileDirectory)../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

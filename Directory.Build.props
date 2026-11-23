@@ -5,7 +5,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <FSharpCoreImplicitPackageVersion>9.0.100</FSharpCoreImplicitPackageVersion>
     <NuGetAudit>false</NuGetAudit>
-    <Version>0.1.2</Version>
-    <RanvierTrace>false</RanvierTrace>
+    <Version>0.1.3</Version>
+    <RanvierTrace Condition="'$(RanvierTrace)' == ''">false</RanvierTrace>
+    <RanvierPackageSuffix Condition="'$(RanvierTrace)' == 'true'">.Traced</RanvierPackageSuffix>
+    <DefineConstants Condition="'$(RanvierTrace)' == 'true'">$(DefineConstants);RANVIER_TRACE</DefineConstants>
   </PropertyGroup>
 </Project>

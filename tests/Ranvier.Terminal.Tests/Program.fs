@@ -824,6 +824,28 @@ test "local geometry reuses clean measurements and explicit invalidation refresh
     equal 18 mounted.Root.Children[5].DesiredWidth "direct write measured"
     View.dispose mounted)
 
+test "traced and untraced cohort metadata align" (fun () ->
+#if RANVIER_TRACE
+    let expectedTraced = true
+#else
+    let expectedTraced = false
+#endif
+    let hasMeta key (asm: System.Reflection.Assembly) =
+        asm.GetCustomAttributes(typeof<System.Reflection.AssemblyMetadataAttribute>, false)
+        |> Array.exists (fun attr ->
+            let meta = attr :?> System.Reflection.AssemblyMetadataAttribute
+            meta.Key = key && meta.Value = "true")
+    let terminalAssemblies =
+        [ typeof<Frame>.Assembly
+          typeof<Ranvier.Terminal.Css.Style>.Assembly
+          typeof<Ranvier.Terminal.View.Node>.Assembly
+          typeof<TerminalOptions>.Assembly ]
+    for asm in terminalAssemblies do
+        check (hasMeta "RanvierLibrary" asm) ($"{asm.GetName().Name} carries RanvierLibrary metadata")
+        equal expectedTraced (hasMeta "RanvierTrace" asm) ($"{asm.GetName().Name} RanvierTrace metadata matches RANVIER_TRACE")
+    for asm in [ typeof<Graph>.Assembly; typeof<Ranvier.Keyboard.KeyChord>.Assembly ] do
+        equal expectedTraced (hasMeta "RanvierTrace" asm) ($"{asm.GetName().Name} RanvierTrace metadata matches RANVIER_TRACE"))
+
 let allocationTest () =
     use graph = new Graph()
 

@@ -54,6 +54,18 @@ jobs:
         run: |
           dotnet examples/Showcase/bin/Release/net10.0/Showcase.dll --verify
           dotnet examples/Utilities/bin/Release/net10.0/Utilities.dll --verify
+      - name: Build and verify traced cohort
+        env:
+          DOTNET_TieredCompilation: '0'
+        working-directory: Ranvier.Terminal
+        run: |
+          dotnet build Ranvier.Terminal.slnx -c Release -m:1 --artifacts-path artifacts/traced -p:NuGetAudit=false -p:RanvierTrace=true
+          dotnet artifacts/traced/bin/Ranvier.Terminal.Tests/release/Ranvier.Terminal.Tests.dll
+          dotnet artifacts/traced/bin/Dashboard/release/Dashboard.dll --headless
+          dotnet artifacts/traced/bin/SystemMonitor/release/SystemMonitor.dll --verify
+          dotnet artifacts/traced/bin/MonitorProbe/release/MonitorProbe.dll
+          dotnet artifacts/traced/bin/Showcase/release/Showcase.dll --verify
+          dotnet artifacts/traced/bin/Utilities/release/Utilities.dll --verify
       - name: Pack libraries and run standalone consumer
         if: matrix.os == 'macos-15-intel'
         working-directory: Ranvier.Terminal

@@ -17,7 +17,7 @@
     <PackageReference Include="Nacara.Plugin.Highlight.TextMate" Version="1.0.0-beta.1" />
     <PackageReference Include="Nacara.Plugin.Sitemap" Version="1.0.0-beta.1" />
     <PackageReference Include="Partas.Nacara.Plugins.AgentFriendly" Version="0.1.0" />
-    <PackageReference Include="Ranvier.Css" Version="0.1.1" />
-    <PackageReference Include="Ranvier.View" Version="0.2.0" />
+    <PackageReference Include="Ranvier.Css" Version="0.3.0" />
+    <PackageReference Include="Ranvier.View" Version="0.4.0" />
   </ItemGroup>
 </Project>
