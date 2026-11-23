@@ -30,8 +30,12 @@ jobs:
           gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" | jq -e --arg sha "$GITHUB_SHA" '.path == ".github/workflows/ci.yml" and .event == "push" and .head_branch == "main" and .head_sha == $sha and .conclusion == "success"'
           gh run download "$RUN_ID" -n nuget-packages -D packages
           version=$(dotnet msbuild src/Ranvier.Terminal/Ranvier.Terminal.fsproj -getProperty:Version)
-          for id in Ranvier.Terminal{,.Core,.Css,.View,.Components}; do test -f "packages/$id.$version.nupkg"; done
-          test "$(find packages -name '*.nupkg' | wc -l)" -eq 5
+          for suffix in "" .Traced; do
+            for id in Ranvier.Terminal{,.Core,.Css,.View,.Components}; do
+              test -f "packages/$id$suffix.$version.nupkg"
+            done
+          done
+          test "$(find packages -name '*.nupkg' | wc -l)" -eq 10
           echo "VERSION=$version" >> "$GITHUB_ENV"
       - uses: NuGet/login@v1
         id: login
@@ -41,8 +45,10 @@ jobs:
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: |
-          for id in Ranvier.Terminal{.Core,.Css,.View,.Components,}; do
-            dotnet nuget push "packages/$id.$VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+          for suffix in "" .Traced; do
+            for id in Ranvier.Terminal{.Core,.Css,.View,.Components,}; do
+              dotnet nuget push "packages/$id$suffix.$VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+            done
           done
       - name: Create GitHub release
         env:

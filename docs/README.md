@@ -39,15 +39,14 @@ between the captured interaction states. Reduced-motion visitors start paused.
 Partas.Nacara.Plugins.AgentFriendly publishes the Markdown pages, the page index at
 `llms.txt`, and the combined guide at `llms-full.txt`.
 
-With the `Ranvier` and source-packaging-enabled `Ranvier.D5` checkouts beside this
-repository, run the following command from the Terminal root. Asset regeneration also
-uses PowerShell, Node.js, and npm. The diagram build restores the project-local fickl tool.
+Run the following command from the Terminal root. Asset regeneration uses PowerShell,
+Node.js, and npm, and restores the project-local fickl tool.
 
 ```powershell
 pwsh -NoProfile -File scripts/docs.ps1 -RefreshAssets
 ```
 
-The script packs the D5 checkout into its local feed, compiles the architecture consumer
-from that NuGet package, regenerates the deterministic framebuffer captures and rebuilds
-the site. The diagram project's `D5Version` and `D5Feed` MSBuild properties select the
-package used for a standalone diagram rebuild.
+The script compiles the architecture and showcase bundles against published NuGet packages,
+regenerates the deterministic framebuffer captures and rebuilds the site. The diagram
+project's `D5Version` and `D5Feed` MSBuild properties remain available to override `Ranvier.D5`
+from a local feed during a standalone diagram rebuild.

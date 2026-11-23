@@ -2,7 +2,7 @@
   <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/Ranvier.Terminal/Ranvier.Terminal.fsproj" /></ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ranvier.Elmish" Version="0.2.0" />
+    <PackageReference Include="Ranvier.Elmish$(RanvierPackageSuffix)" Version="0.2.1" />
     <ProjectReference Include="../../src/Ranvier.Terminal.Components/Ranvier.Terminal.Components.fsproj" />
     <Compile Include="../Utilities/Model.fs" Link="UtilityModel.fs" />
     <Compile Include="Model.fs" />
